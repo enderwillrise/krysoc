@@ -1,6 +1,7 @@
 import { BOOKING_URL, CONTACT_EMAIL, type Locale } from "@/lib/site";
 import type { Dict } from "@/content/dictionary";
 import { Pipeline } from "@/components/pipeline";
+import { CountUp } from "@/components/count-up";
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -20,49 +21,71 @@ function SectionHead({
   return (
     <div className="reveal max-w-2xl">
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ivory sm:text-4xl">
+      <h2 className="mt-4 font-display text-2xl font-bold leading-snug text-ivory sm:text-3xl">
         {title}
       </h2>
-      {sub ? <p className="mt-4 text-base leading-relaxed text-stone">{sub}</p> : null}
+      {sub ? <p className="mt-5 text-base leading-relaxed text-stone">{sub}</p> : null}
     </div>
   );
 }
 
+function StaggerWords({
+  text,
+  startDelay = 0,
+}: {
+  text: string;
+  startDelay?: number;
+}) {
+  return (
+    <>
+      {text.split(" ").map((word, i) => (
+        <span
+          key={`${word}-${i}`}
+          className="hero-rise inline-block"
+          style={{ animationDelay: `${startDelay + i * 0.07}s` }}
+        >
+          {word}
+        </span>
+      ))}
+    </>
+  );
+}
+
 export function Hero({ locale, dict }: { locale: Locale; dict: Dict }) {
+  const wordCountA = dict.hero.titleA.split(" ").length;
   return (
     <section className="relative overflow-hidden pt-32 pb-20 sm:pt-40">
-      {/* backdrop glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(52rem 26rem at 70% -5%, rgba(230,185,99,0.09), transparent 60%), radial-gradient(40rem 20rem at 10% 110%, rgba(122,79,29,0.12), transparent 60%)",
-        }}
-      />
-      <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 lg:grid-cols-[1.02fr_0.98fr]">
+      <div aria-hidden className="aurora aurora-a" />
+      <div aria-hidden className="aurora aurora-b" />
+      <div aria-hidden className="aurora aurora-c" />
+      <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 lg:grid-cols-[1.08fr_0.92fr]">
         <div>
           <div className="hero-rise hero-rise-1">
             <Eyebrow>{dict.hero.eyebrow}</Eyebrow>
           </div>
-          <h1 className="hero-rise hero-rise-2 mt-4 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ivory sm:text-5xl lg:text-6xl">
-            {dict.hero.titleA}{" "}
-            <span className="text-gold">{dict.hero.titleGold}</span>
+          <h1 className="mt-5 flex flex-wrap gap-x-[0.3em] gap-y-2 font-display text-[1.7rem] font-bold leading-[1.22] text-ivory sm:text-4xl sm:leading-[1.18] lg:text-[2.6rem]">
+            <StaggerWords text={dict.hero.titleA} startDelay={0.1} />
+            <span className="flex flex-wrap gap-x-[0.3em] gap-y-2 text-gold">
+              <StaggerWords
+                text={dict.hero.titleGold}
+                startDelay={0.1 + wordCountA * 0.07}
+              />
+            </span>
           </h1>
-          <p className="hero-rise hero-rise-3 mt-6 max-w-xl text-lg leading-relaxed text-stone">
+          <p className="hero-rise hero-rise-3 mt-7 max-w-xl text-lg leading-relaxed text-stone">
             {dict.hero.sub}
           </p>
-          <div className="hero-rise hero-rise-4 mt-8 flex flex-wrap items-center gap-4">
+          <div className="hero-rise hero-rise-4 mt-9 flex flex-wrap items-center gap-4">
             <a
               href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-gold px-7 py-3.5 text-base font-semibold text-obsidian transition-colors hover:bg-gold-soft"
+              className="btn-shine rounded-full bg-gold px-7 py-3.5 text-base font-semibold text-obsidian transition-colors hover:bg-gold-soft"
             >
               {dict.hero.ctaPrimary}
             </a>
             <a
-              href={`/${locale}#services`}
+              href={`/${locale}/#services`}
               className="rounded-full border border-line px-7 py-3.5 text-base text-ivory transition-colors hover:border-gold-deep"
             >
               {dict.hero.ctaSecondary}
@@ -83,18 +106,63 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dict }) {
   );
 }
 
-export function Proof({ dict }: { dict: Dict }) {
+const MARQUEE_ITEMS = [
+  "n8n",
+  "Make",
+  "Zapier",
+  "Claude",
+  "OpenAI",
+  "HubSpot",
+  "Slack",
+  "Notion",
+  "Airtable",
+  "Stripe",
+  "Gmail",
+  "Excel",
+  "WhatsApp",
+];
+
+export function Marquee() {
+  const row = (hidden: boolean) => (
+    <div
+      aria-hidden={hidden || undefined}
+      className="flex shrink-0 items-center"
+    >
+      {MARQUEE_ITEMS.map((item) => (
+        <span
+          key={item}
+          className="flex items-center gap-10 pr-10 font-mono text-sm uppercase tracking-[0.2em] text-stone-dim"
+        >
+          {item}
+          <span aria-hidden className="text-[0.55rem] text-gold-deep">
+            ◆
+          </span>
+        </span>
+      ))}
+    </div>
+  );
   return (
-    <section className="border-y border-line-soft bg-coal/60">
-      <div className="mx-auto max-w-6xl px-5 py-16">
+    <div className="marquee border-y border-line-soft py-5">
+      <div className="marquee-track">
+        {row(false)}
+        {row(true)}
+      </div>
+    </div>
+  );
+}
+
+export function Proof({ locale, dict }: { locale: Locale; dict: Dict }) {
+  return (
+    <section className="bg-coal/60">
+      <div className="mx-auto max-w-6xl px-5 py-20">
         <SectionHead eyebrow={dict.proof.eyebrow} title={dict.proof.title} sub={dict.proof.sub} />
         <dl className="reveal mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line lg:grid-cols-4">
           {dict.proof.stats.map((s) => (
-            <div key={s.label} className="bg-card px-6 py-7">
-              <dd className="font-display text-4xl font-extrabold tracking-tight text-gold">
-                {s.value}
+            <div key={s.label} className="spot bg-card px-6 py-7">
+              <dd className="font-display text-2xl font-bold tracking-tight text-gold sm:text-3xl">
+                <CountUp value={s.value} locale={locale} />
               </dd>
-              <dt className="mt-2 text-sm leading-snug text-stone">{s.label}</dt>
+              <dt className="mt-3 text-sm leading-snug text-stone">{s.label}</dt>
             </div>
           ))}
         </dl>
@@ -116,12 +184,12 @@ export function Services({ dict }: { dict: Dict }) {
           {dict.services.items.map((item) => (
             <article
               key={item.title}
-              className="reveal group rounded-2xl border border-line bg-card p-7 transition-colors hover:border-gold-deep"
+              className="spot reveal group rounded-2xl border border-line bg-card p-7 transition-colors hover:border-gold-deep"
             >
-              <p className="font-mono text-xs uppercase tracking-[0.18em] text-stone-dim group-hover:text-gold">
+              <p className="font-mono text-xs uppercase tracking-[0.18em] text-stone-dim transition-colors group-hover:text-gold">
                 {item.tag}
               </p>
-              <h3 className="mt-3 font-display text-xl font-bold text-ivory">
+              <h3 className="mt-4 font-display text-lg font-semibold leading-snug text-ivory">
                 {item.title}
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-stone">{item.body}</p>
@@ -153,12 +221,12 @@ export function Work({ dict }: { dict: Dict }) {
           {dict.work.items.map((item) => (
             <article
               key={item.name}
-              className="reveal flex flex-col rounded-2xl border border-line bg-card p-7"
+              className="spot reveal flex flex-col rounded-2xl border border-line bg-card p-7 transition-transform duration-300 hover:-translate-y-1"
             >
               <p className="font-mono text-[11px] uppercase tracking-widest text-stone-dim">
                 {item.domain}
               </p>
-              <h3 className="mt-2 font-display text-2xl font-bold text-ivory">
+              <h3 className="mt-3 font-display text-xl font-semibold text-ivory">
                 {item.name}
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-stone">{item.body}</p>
@@ -187,28 +255,34 @@ export function Process({ dict }: { dict: Dict }) {
           title={dict.process.title}
           sub={dict.process.sub}
         />
-        <ol className="mt-12 grid gap-5 lg:grid-cols-3">
-          {dict.process.steps.map((step) => (
-            <li
-              key={step.num}
-              className="reveal relative rounded-2xl border border-line bg-card p-7"
-            >
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -top-5 right-5 font-display text-7xl font-extrabold text-line select-none"
+        <div className="relative mt-12">
+          <div
+            aria-hidden
+            className="conveyor absolute inset-x-0 top-14 hidden h-px lg:block"
+          />
+          <ol className="relative grid gap-5 lg:grid-cols-3">
+            {dict.process.steps.map((step) => (
+              <li
+                key={step.num}
+                className="spot reveal relative rounded-2xl border border-line bg-card p-7"
               >
-                {step.num}
-              </span>
-              <p className="font-mono text-xs uppercase tracking-widest text-gold">
-                {step.duration}
-              </p>
-              <h3 className="mt-3 font-display text-xl font-bold text-ivory">
-                {step.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-stone">{step.body}</p>
-            </li>
-          ))}
-        </ol>
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute -top-4 right-5 font-display text-6xl font-bold text-line select-none"
+                >
+                  {step.num}
+                </span>
+                <p className="font-mono text-xs uppercase tracking-widest text-gold">
+                  {step.duration}
+                </p>
+                <h3 className="mt-4 font-display text-lg font-semibold text-ivory">
+                  {step.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-stone">{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   );
@@ -227,17 +301,17 @@ export function Pricing({ dict }: { dict: Dict }) {
           {dict.pricing.tiers.map((tier) => (
             <article
               key={tier.name}
-              className={`reveal rounded-2xl border p-7 ${
+              className={`spot reveal rounded-2xl border p-7 ${
                 tier.highlight
                   ? "border-gold-deep bg-card shadow-[0_0_60px_rgba(230,185,99,0.07)]"
                   : "border-line bg-card"
               }`}
             >
-              <h3 className="font-display text-lg font-bold text-ivory">{tier.name}</h3>
-              <p className="mt-4 font-display text-4xl font-extrabold tracking-tight text-gold">
+              <h3 className="font-display text-base font-semibold text-ivory">{tier.name}</h3>
+              <p className="mt-5 font-display text-3xl font-bold tracking-tight text-gold">
                 {tier.price}
               </p>
-              <p className="mt-1 font-mono text-xs text-stone-dim">{tier.priceNote}</p>
+              <p className="mt-2 font-mono text-xs text-stone-dim">{tier.priceNote}</p>
               <p className="mt-4 text-sm leading-relaxed text-stone">{tier.body}</p>
               <ul className="mt-5 space-y-2">
                 {tier.features.map((f) => (
@@ -266,7 +340,7 @@ export function Pricing({ dict }: { dict: Dict }) {
                 rel="noopener noreferrer"
                 className={`mt-7 block rounded-full px-5 py-3 text-center text-sm font-semibold transition-colors ${
                   tier.highlight
-                    ? "bg-gold text-obsidian hover:bg-gold-soft"
+                    ? "btn-shine bg-gold text-obsidian hover:bg-gold-soft"
                     : "border border-line text-ivory hover:border-gold-deep"
                 }`}
               >
@@ -316,10 +390,10 @@ export function FinalCta({ dict }: { dict: Dict }) {
         }}
       />
       <div className="relative mx-auto max-w-3xl px-5 py-28 text-center">
-        <h2 className="reveal font-display text-4xl font-extrabold tracking-tight text-ivory sm:text-5xl">
+        <h2 className="reveal font-display text-3xl font-bold leading-snug text-ivory sm:text-4xl">
           {dict.finalCta.title}
         </h2>
-        <p className="reveal mx-auto mt-5 max-w-xl text-lg leading-relaxed text-stone">
+        <p className="reveal mx-auto mt-6 max-w-xl text-lg leading-relaxed text-stone">
           {dict.finalCta.sub}
         </p>
         <div className="reveal mt-9">
@@ -327,7 +401,7 @@ export function FinalCta({ dict }: { dict: Dict }) {
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block rounded-full bg-gold px-8 py-4 text-base font-semibold text-obsidian transition-colors hover:bg-gold-soft"
+            className="btn-shine inline-block rounded-full bg-gold px-8 py-4 text-base font-semibold text-obsidian transition-colors hover:bg-gold-soft"
           >
             {dict.finalCta.cta}
           </a>

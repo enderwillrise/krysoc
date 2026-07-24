@@ -5,6 +5,7 @@ import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import {
   Hero,
+  Marquee,
   Proof,
   Services,
   Work,
@@ -28,7 +29,8 @@ export default async function LandingPage({
       <Nav locale={locale} dict={dict} />
       <main>
         <Hero locale={locale} dict={dict} />
-        <Proof dict={dict} />
+        <Marquee />
+        <Proof locale={locale} dict={dict} />
         <Services dict={dict} />
         <Work dict={dict} />
         <Process dict={dict} />

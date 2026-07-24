@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Unbounded, Archivo, IBM_Plex_Mono } from "next/font/google";
 import { LOCALES, SITE_URL, isLocale, type Locale } from "@/lib/site";
 import { getDict } from "@/content/dictionary";
 import { RevealObserver } from "@/components/reveal-observer";
+import { SpotlightEffect } from "@/components/spotlight-effect";
 import "../globals.css";
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
+const unbounded = Unbounded({
+  variable: "--font-unbounded",
   subsets: ["latin"],
   display: "swap",
 });
 
-const instrument = Instrument_Sans({
-  variable: "--font-instrument",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
   display: "swap",
 });
@@ -70,9 +71,10 @@ export default async function RootLayout({
   return (
     <html lang={lang}>
       <body
-        className={`${bricolage.variable} ${instrument.variable} ${plexMono.variable} antialiased`}
+        className={`${unbounded.variable} ${archivo.variable} ${plexMono.variable} antialiased`}
       >
         <RevealObserver />
+        <SpotlightEffect />
         {children}
       </body>
     </html>

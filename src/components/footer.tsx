@@ -5,10 +5,10 @@ import type { Dict } from "@/content/dictionary";
 export function Footer({ locale, dict }: { locale: Locale; dict: Dict }) {
   const other: Locale = locale === "en" ? "de" : "en";
   return (
-    <footer className="border-t border-line-soft bg-coal">
+    <footer className="overflow-hidden border-t border-line-soft bg-coal">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <p className="font-display text-2xl font-extrabold tracking-tight text-ivory">
+          <p className="font-display text-xl font-bold tracking-tight text-ivory">
             krysoc<span className="text-gold">.</span>
           </p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-stone">
@@ -28,10 +28,10 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dict }) {
           </p>
           <ul className="mt-4 space-y-2 text-sm">
             {[
-              { href: `/${locale}#services`, label: dict.nav.services },
-              { href: `/${locale}#work`, label: dict.nav.work },
-              { href: `/${locale}#pricing`, label: dict.nav.pricing },
-              { href: `/${locale}#faq`, label: dict.nav.faq },
+              { href: `/${locale}/#services`, label: dict.nav.services },
+              { href: `/${locale}/#work`, label: dict.nav.work },
+              { href: `/${locale}/#pricing`, label: dict.nav.pricing },
+              { href: `/${locale}/#faq`, label: dict.nav.faq },
             ].map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="text-stone transition-colors hover:text-ivory">
@@ -49,7 +49,7 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dict }) {
           <ul className="mt-4 space-y-2 text-sm">
             <li>
               <Link
-                href={`/${locale}/imprint`}
+                href={`/${locale}/imprint/`}
                 className="text-stone transition-colors hover:text-ivory"
               >
                 {dict.footer.imprint}
@@ -57,7 +57,7 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dict }) {
             </li>
             <li>
               <Link
-                href={`/${locale}/privacy`}
+                href={`/${locale}/privacy/`}
                 className="text-stone transition-colors hover:text-ivory"
               >
                 {dict.footer.privacy}
@@ -65,7 +65,7 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dict }) {
             </li>
             <li>
               <Link
-                href={`/${other}`}
+                href={`/${other}/`}
                 className="text-stone transition-colors hover:text-ivory"
               >
                 {dict.footer.language}
@@ -74,7 +74,10 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dict }) {
           </ul>
         </div>
       </div>
-      <div className="border-t border-line-soft">
+      <div aria-hidden className="watermark -mb-6">
+        KRYSOC
+      </div>
+      <div className="relative border-t border-line-soft bg-coal">
         <p className="mx-auto max-w-6xl px-5 py-5 font-mono text-xs text-stone-dim">
           © {new Date().getFullYear()} Krysoc
         </p>

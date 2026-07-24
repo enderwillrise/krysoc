@@ -15,11 +15,15 @@
   --color-gold-deep: #b8863b;
   --color-ember: #7a4f1d;
 
-  --font-display: var(--font-bricolage);
-  --font-body: var(--font-instrument);
-  --font-mono: var(--font-plex-mono);
-
   --animate-node-pulse: node-pulse 3.2s ease-in-out infinite;
+}
+
+/* Font tokens must be `inline` so utilities resolve the next/font variables
+   at the element level (the vars live on <body>, not :root). */
+@theme inline {
+  --font-display: var(--font-unbounded);
+  --font-body: var(--font-archivo);
+  --font-mono: var(--font-plex-mono);
 }
 
 html {
@@ -29,8 +33,19 @@ html {
 body {
   background: var(--color-obsidian);
   color: var(--color-ivory);
-  font-family: var(--font-body), system-ui, sans-serif;
+  font-family: var(--font-archivo), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Film-grain overlay — the "designed object" texture */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
 }
 
 ::selection {
@@ -64,6 +79,52 @@ body {
 .hero-rise-3 { animation-delay: 0.25s; }
 .hero-rise-4 { animation-delay: 0.35s; }
 
+/* Aurora blobs drifting behind the hero */
+.aurora {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.aurora-a {
+  width: 34rem;
+  height: 34rem;
+  top: -12rem;
+  right: -6rem;
+  background: radial-gradient(circle, rgba(230, 185, 99, 0.16), transparent 62%);
+  animation: drift-a 24s ease-in-out infinite alternate;
+}
+
+.aurora-b {
+  width: 28rem;
+  height: 28rem;
+  bottom: -10rem;
+  left: -8rem;
+  background: radial-gradient(circle, rgba(122, 79, 29, 0.22), transparent 62%);
+  animation: drift-b 30s ease-in-out infinite alternate;
+}
+
+.aurora-c {
+  width: 18rem;
+  height: 18rem;
+  top: 30%;
+  left: 38%;
+  background: radial-gradient(circle, rgba(230, 185, 99, 0.07), transparent 60%);
+  animation: drift-a 36s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-4rem, 3rem, 0) scale(1.15); }
+}
+
+@keyframes drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(3rem, -2.5rem, 0) scale(1.1); }
+}
+
 /* Scroll reveal — IntersectionObserver adds .is-visible; without JS
    (or with reduced motion) nothing is ever hidden. */
 html.js-reveal .reveal {
@@ -79,6 +140,117 @@ html.js-reveal .reveal.is-visible {
   transform: none;
 }
 
+/* Marquee — tool strip */
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Cursor spotlight on .spot cards (vars set by SpotlightEffect) */
+.spot {
+  position: relative;
+  overflow: hidden;
+}
+
+.spot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    17rem circle at var(--mx, 50%) var(--my, 50%),
+    rgba(230, 185, 99, 0.09),
+    transparent 65%
+  );
+}
+
+.spot:hover::after {
+  opacity: 1;
+}
+
+/* Shine sweep on primary gold CTAs */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 45%;
+  left: -70%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: skewX(-20deg);
+  animation: shine 4.4s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%, 58% { left: -70%; }
+  78%, 100% { left: 140%; }
+}
+
+/* Process conveyor line — flows behind the step cards */
+.conveyor {
+  background-image: linear-gradient(
+    90deg,
+    rgba(230, 185, 99, 0.45) 0 7px,
+    transparent 7px 18px
+  );
+  background-size: 18px 1px;
+  animation: dash-flow 0.9s linear infinite;
+}
+
+@keyframes dash-flow {
+  to { background-position: 18px 0; }
+}
+
+/* Pipeline — rotating orbit rings */
+.ring-rotate {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ring-spin 46s linear infinite;
+}
+
+.ring-rotate-reverse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ring-spin 70s linear infinite reverse;
+}
+
+@keyframes ring-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Footer ghost watermark */
+.watermark {
+  font-family: var(--font-unbounded), sans-serif;
+  font-weight: 700;
+  font-size: clamp(3.4rem, 14vw, 12rem);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(230, 185, 99, 0.14);
+  user-select: none;
+  -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 92%);
+  mask-image: linear-gradient(to bottom, black 20%, transparent 92%);
+}
+
 /* FAQ accordion marker */
 details.faq summary::-webkit-details-marker { display: none; }
 details.faq summary::marker { content: ""; }
@@ -88,7 +260,13 @@ details.faq[open] .faq-chevron { transform: rotate(45deg); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hero-rise,
-  .animate-node-pulse {
+  .animate-node-pulse,
+  .aurora,
+  .marquee-track,
+  .btn-shine::after,
+  .conveyor,
+  .ring-rotate,
+  .ring-rotate-reverse {
     animation: none !important;
   }
   html.js-reveal .reveal {

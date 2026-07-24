@@ -143,15 +143,27 @@ export function Pipeline({ locale }: { locale: Locale }) {
         strokeWidth="0.75"
         strokeDasharray="3 6"
         opacity="0.5"
+        className="ring-rotate"
+      />
+      <circle
+        cx="280"
+        cy="210"
+        r="56"
+        fill="none"
+        stroke="#e6b963"
+        strokeWidth="0.5"
+        strokeDasharray="1 9"
+        opacity="0.35"
+        className="ring-rotate-reverse"
       />
       <text
         x="280"
-        y="222"
+        y="221"
         textAnchor="middle"
         fill="#e6b963"
-        fontSize="30"
+        fontSize="26"
         fontWeight="700"
-        fontFamily="var(--font-bricolage), sans-serif"
+        fontFamily="var(--font-unbounded), sans-serif"
       >
         K
       </text>

@@ -5,19 +5,19 @@ import type { Dict } from "@/content/dictionary";
 export function Nav({ locale, dict }: { locale: Locale; dict: Dict }) {
   const other: Locale = locale === "en" ? "de" : "en";
   const links = [
-    { href: `/${locale}#services`, label: dict.nav.services },
-    { href: `/${locale}#work`, label: dict.nav.work },
-    { href: `/${locale}#process`, label: dict.nav.process },
-    { href: `/${locale}#pricing`, label: dict.nav.pricing },
-    { href: `/${locale}#faq`, label: dict.nav.faq },
+    { href: `/${locale}/#services`, label: dict.nav.services },
+    { href: `/${locale}/#work`, label: dict.nav.work },
+    { href: `/${locale}/#process`, label: dict.nav.process },
+    { href: `/${locale}/#pricing`, label: dict.nav.pricing },
+    { href: `/${locale}/#faq`, label: dict.nav.faq },
   ];
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line-soft bg-obsidian/80 backdrop-blur-md">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
         <Link
-          href={`/${locale}`}
-          className="font-display text-xl font-extrabold tracking-tight text-ivory"
+          href={`/${locale}/`}
+          className="font-display text-lg font-bold tracking-tight text-ivory"
         >
           krysoc<span className="text-gold">.</span>
         </Link>
@@ -36,7 +36,7 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dict }) {
 
         <div className="flex items-center gap-4">
           <Link
-            href={`/${other}`}
+            href={`/${other}/`}
             aria-label={other === "de" ? "Deutsche Version" : "English version"}
             className="font-mono text-xs uppercase tracking-widest text-stone transition-colors hover:text-gold"
           >
