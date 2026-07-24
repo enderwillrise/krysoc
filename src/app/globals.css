@@ -1,26 +1,100 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Krysoc palette — warm obsidian + molten gold (chrysos) */
+  --color-obsidian: #0a0907;
+  --color-coal: #14110c;
+  --color-card: #191510;
+  --color-line: #2c261b;
+  --color-line-soft: #221d14;
+  --color-ivory: #f4efe4;
+  --color-stone: #a69c87;
+  --color-stone-dim: #6f6653;
+  --color-gold: #e6b963;
+  --color-gold-soft: #f1d9a6;
+  --color-gold-deep: #b8863b;
+  --color-ember: #7a4f1d;
+
+  --font-display: var(--font-bricolage);
+  --font-body: var(--font-instrument);
+  --font-mono: var(--font-plex-mono);
+
+  --animate-node-pulse: node-pulse 3.2s ease-in-out infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-obsidian);
+  color: var(--color-ivory);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-obsidian);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* ---- Motion ---- */
+
+@keyframes node-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-rise {
+  animation: hero-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-rise-1 { animation-delay: 0.05s; }
+.hero-rise-2 { animation-delay: 0.15s; }
+.hero-rise-3 { animation-delay: 0.25s; }
+.hero-rise-4 { animation-delay: 0.35s; }
+
+/* Scroll reveal — IntersectionObserver adds .is-visible; without JS
+   (or with reduced motion) nothing is ever hidden. */
+html.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.js-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* FAQ accordion marker */
+details.faq summary::-webkit-details-marker { display: none; }
+details.faq summary::marker { content: ""; }
+details.faq[open] .faq-chevron { transform: rotate(45deg); }
+.faq-chevron { transition: transform 0.2s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-rise,
+  .animate-node-pulse {
+    animation: none !important;
+  }
+  html.js-reveal .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .pipeline-dot { display: none; }
 }
