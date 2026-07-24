@@ -7,6 +7,13 @@ import {
   UniGetVisual,
   EinbuergerungVisual,
 } from "@/components/work-visuals";
+import {
+  FlowDemo,
+  ChatDemo,
+  BuildDemo,
+  AuditDemo,
+} from "@/components/service-visuals";
+import { RoiWidget } from "@/components/roi-widget";
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -18,13 +25,15 @@ function SectionHead({
   eyebrow,
   title,
   sub,
+  center,
 }: {
   eyebrow: string;
   title: string;
   sub?: string;
+  center?: boolean;
 }) {
   return (
-    <div className="reveal max-w-2xl">
+    <div className={`reveal max-w-2xl ${center ? "mx-auto text-center" : ""}`}>
       <Eyebrow>{eyebrow}</Eyebrow>
       <h2 className="mt-4 font-display text-2xl font-bold leading-snug text-ivory sm:text-3xl">
         {title}
@@ -162,8 +171,13 @@ export function Proof({ locale, dict }: { locale: Locale; dict: Dict }) {
       <div className="mx-auto max-w-6xl px-5 py-20">
         <SectionHead eyebrow={dict.proof.eyebrow} title={dict.proof.title} sub={dict.proof.sub} />
         <dl className="reveal mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line lg:grid-cols-4">
-          {dict.proof.stats.map((s) => (
+          {dict.proof.stats.map((s, i) => (
             <div key={s.label} className="spot bg-card px-6 py-7">
+              <span
+                aria-hidden
+                className="stat-accent mb-4 block h-0.5 w-10 bg-gold"
+                style={{ transitionDelay: `${0.1 + i * 0.15}s` }}
+              />
               <dd className="font-display text-2xl font-bold tracking-tight text-gold sm:text-3xl">
                 <CountUp value={s.value} locale={locale} />
               </dd>
@@ -176,7 +190,9 @@ export function Proof({ locale, dict }: { locale: Locale; dict: Dict }) {
   );
 }
 
-export function Services({ dict }: { dict: Dict }) {
+const SERVICE_DEMOS = [FlowDemo, ChatDemo, BuildDemo, AuditDemo];
+
+export function Services({ locale, dict }: { locale: Locale; dict: Dict }) {
   return (
     <section id="services" className="scroll-mt-24">
       <div className="mx-auto max-w-6xl px-5 py-24">
@@ -186,31 +202,39 @@ export function Services({ dict }: { dict: Dict }) {
           sub={dict.services.sub}
         />
         <div className="mt-12 grid gap-5 md:grid-cols-2">
-          {dict.services.items.map((item) => (
-            <article
-              key={item.title}
-              className="spot reveal group rounded-2xl border border-line bg-card p-7 transition-colors hover:border-gold-deep"
-            >
-              <p className="font-mono text-xs uppercase tracking-[0.18em] text-stone-dim transition-colors group-hover:text-gold">
-                {item.tag}
-              </p>
-              <h3 className="mt-4 font-display text-lg font-semibold leading-snug text-ivory">
-                {item.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-stone">{item.body}</p>
-              <p className="mt-5 font-mono text-[11px] uppercase tracking-widest text-stone-dim">
-                {dict.services.examplesLabel}
-              </p>
-              <ul className="mt-2 space-y-1.5">
-                {item.examples.map((ex) => (
-                  <li key={ex} className="flex gap-2 text-sm text-stone">
-                    <span aria-hidden className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-gold" />
-                    {ex}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
+          {dict.services.items.map((item, i) => {
+            const Demo = SERVICE_DEMOS[i];
+            return (
+              <article
+                key={item.title}
+                className="spot reveal group rounded-2xl border border-line bg-card p-5 transition-colors hover:border-gold-deep sm:p-6"
+              >
+                {Demo ? (
+                  <div className="mb-5">
+                    <Demo locale={locale} />
+                  </div>
+                ) : null}
+                <p className="font-mono text-xs uppercase tracking-[0.18em] text-stone-dim transition-colors group-hover:text-gold">
+                  {item.tag}
+                </p>
+                <h3 className="mt-4 font-display text-lg font-semibold leading-snug text-ivory">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-stone">{item.body}</p>
+                <p className="mt-5 font-mono text-[11px] uppercase tracking-widest text-stone-dim">
+                  {dict.services.examplesLabel}
+                </p>
+                <ul className="mt-2 space-y-1.5">
+                  {item.examples.map((ex) => (
+                    <li key={ex} className="flex gap-2 text-sm text-stone">
+                      <span aria-hidden className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-gold" />
+                      {ex}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -269,31 +293,33 @@ export function Process({ dict }: { dict: Dict }) {
           eyebrow={dict.process.eyebrow}
           title={dict.process.title}
           sub={dict.process.sub}
+          center
         />
-        <div className="relative mt-12">
+        <div className="relative mt-16">
           <div
             aria-hidden
-            className="conveyor absolute inset-x-0 top-14 hidden h-px lg:block"
+            className="conveyor absolute left-8 right-8 top-7 hidden h-px lg:block"
           />
-          <ol className="relative grid gap-5 lg:grid-cols-3">
-            {dict.process.steps.map((step) => (
-              <li
-                key={step.num}
-                className="spot reveal relative rounded-2xl border border-line bg-card p-7"
-              >
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute -top-4 right-5 font-display text-6xl font-bold text-line select-none"
-                >
-                  {step.num}
-                </span>
-                <p className="font-mono text-xs uppercase tracking-widest text-gold">
-                  {step.duration}
-                </p>
-                <h3 className="mt-4 font-display text-lg font-semibold text-ivory">
+          <ol className="relative grid gap-12 lg:grid-cols-3 lg:gap-8">
+            {dict.process.steps.map((step, i) => (
+              <li key={step.num} className="reveal relative lg:px-2">
+                <div className="flex items-center gap-4">
+                  <span
+                    className="station relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-gold-deep bg-obsidian font-display text-sm font-bold text-gold"
+                    style={{ "--d": `${i * 1}s` } as React.CSSProperties}
+                  >
+                    {step.num}
+                  </span>
+                  <span className="rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-gold">
+                    {step.duration}
+                  </span>
+                </div>
+                <h3 className="mt-6 font-display text-lg font-semibold text-ivory">
                   {step.title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-stone">{step.body}</p>
+                <p className="mt-3 max-w-sm text-sm leading-relaxed text-stone">
+                  {step.body}
+                </p>
               </li>
             ))}
           </ol>
@@ -303,7 +329,7 @@ export function Process({ dict }: { dict: Dict }) {
   );
 }
 
-export function Pricing({ dict }: { dict: Dict }) {
+export function Pricing({ locale, dict }: { locale: Locale; dict: Dict }) {
   return (
     <section id="pricing" className="scroll-mt-24 border-y border-line-soft bg-coal/60">
       <div className="mx-auto max-w-6xl px-5 py-24">
@@ -311,17 +337,26 @@ export function Pricing({ dict }: { dict: Dict }) {
           eyebrow={dict.pricing.eyebrow}
           title={dict.pricing.title}
           sub={dict.pricing.sub}
+          center
         />
-        <div className="mt-12 grid items-start gap-5 lg:grid-cols-3">
+        <div className="reveal mt-12">
+          <RoiWidget locale={locale} strings={dict.pricing.roi} />
+        </div>
+        <div className="mt-5 grid items-start gap-5 lg:grid-cols-3">
           {dict.pricing.tiers.map((tier) => (
             <article
               key={tier.name}
-              className={`spot reveal rounded-2xl border p-7 ${
+              className={`spot reveal relative rounded-2xl border p-7 ${
                 tier.highlight
                   ? "border-gold-deep bg-card shadow-[0_0_60px_rgba(230,185,99,0.07)]"
                   : "border-line bg-card"
               }`}
             >
+              {tier.highlight ? (
+                <span className="absolute -top-3 left-7 rounded-full bg-gold px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-widest text-obsidian">
+                  {dict.pricing.badge}
+                </span>
+              ) : null}
               <h3 className="font-display text-base font-semibold text-ivory">{tier.name}</h3>
               <p className="mt-5 font-display text-3xl font-bold tracking-tight text-gold">
                 {tier.price}
@@ -373,18 +408,25 @@ export function Pricing({ dict }: { dict: Dict }) {
 export function Faq({ dict }: { dict: Dict }) {
   return (
     <section id="faq" className="scroll-mt-24">
-      <div className="mx-auto max-w-3xl px-5 py-24">
-        <SectionHead eyebrow={dict.faq.eyebrow} title={dict.faq.title} />
-        <div className="mt-10 space-y-3">
-          {dict.faq.items.map((item) => (
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-24 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          <SectionHead eyebrow={dict.faq.eyebrow} title={dict.faq.title} />
+        </div>
+        <div className="space-y-3">
+          {dict.faq.items.map((item, i) => (
             <details key={item.q} className="faq reveal rounded-xl border border-line bg-card">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-base font-medium text-ivory">
-                {item.q}
+              <summary className="flex cursor-pointer list-none items-center gap-4 px-6 py-5 text-base font-medium text-ivory">
+                <span aria-hidden className="font-mono text-[11px] text-stone-dim">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="flex-1">{item.q}</span>
                 <span aria-hidden className="faq-chevron shrink-0 text-gold">
                   +
                 </span>
               </summary>
-              <p className="px-6 pb-6 text-sm leading-relaxed text-stone">{item.a}</p>
+              <p className="px-6 pb-6 pl-[3.35rem] text-sm leading-relaxed text-stone">
+                {item.a}
+              </p>
             </details>
           ))}
         </div>
@@ -412,14 +454,22 @@ export function FinalCta({ dict }: { dict: Dict }) {
           {dict.finalCta.sub}
         </p>
         <div className="reveal mt-9">
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-shine inline-block rounded-full bg-gold px-8 py-4 text-base font-semibold text-obsidian transition-colors hover:bg-gold-soft"
-          >
-            {dict.finalCta.cta}
-          </a>
+          <div className="flex items-center justify-center gap-5">
+            <span aria-hidden className="conveyor h-px max-w-36 flex-1" />
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-shine inline-block rounded-full bg-gold px-8 py-4 text-base font-semibold text-obsidian transition-colors hover:bg-gold-soft"
+            >
+              {dict.finalCta.cta}
+            </a>
+            <span
+              aria-hidden
+              className="conveyor h-px max-w-36 flex-1"
+              style={{ animationDirection: "reverse" }}
+            />
+          </div>
           <p className="mt-5 text-sm text-stone-dim">
             {dict.finalCta.emailLabel}{" "}
             <a

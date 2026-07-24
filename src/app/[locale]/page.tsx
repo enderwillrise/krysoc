@@ -31,10 +31,10 @@ export default async function LandingPage({
         <Hero locale={locale} dict={dict} />
         <Marquee />
         <Proof locale={locale} dict={dict} />
-        <Services dict={dict} />
+        <Services locale={locale} dict={dict} />
         <Work locale={locale} dict={dict} />
         <Process dict={dict} />
-        <Pricing dict={dict} />
+        <Pricing locale={locale} dict={dict} />
         <Faq dict={dict} />
         <FinalCta dict={dict} />
       </main>

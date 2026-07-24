@@ -49,6 +49,15 @@ export interface Dict {
     eyebrow: string;
     title: string;
     sub: string;
+    roi: {
+      title: string;
+      hours: string;
+      assumption: string;
+      yearly: string;
+      paybackPrefix: string;
+      paybackSuffix: string;
+    };
+    badge: string;
     tiers: {
       name: string;
       price: string;
@@ -221,6 +230,15 @@ const en: Dict = {
     eyebrow: "Pricing",
     title: "Simple engagements, no lock-in.",
     sub: "Start small, see results, then decide. No agency retainers you can't leave.",
+    roi: {
+      title: "How fast does automation pay for itself?",
+      hours: "Hours of manual work per week",
+      assumption: "Assuming €35/hour staff cost, 46 working weeks",
+      yearly: "lost to manual work every year",
+      paybackPrefix: "A €2,900 build sprint pays for itself in about",
+      paybackSuffix: "weeks",
+    },
+    badge: "Most booked",
     footnote:
       "All prices excl. VAT. Audit fee is credited in full if we proceed to a build sprint.",
     tiers: [
@@ -452,6 +470,15 @@ const de: Dict = {
     eyebrow: "Preise",
     title: "Klare Pakete, kein Lock-in.",
     sub: "Klein anfangen, Ergebnisse sehen, dann entscheiden. Keine Agenturverträge, aus denen Sie nicht mehr herauskommen.",
+    roi: {
+      title: "Wie schnell rechnet sich Automatisierung?",
+      hours: "Stunden manuelle Arbeit pro Woche",
+      assumption: "Angenommen: 35 €/Stunde Personalkosten, 46 Arbeitswochen",
+      yearly: "gehen jedes Jahr für manuelle Arbeit verloren",
+      paybackPrefix: "Ein Build-Sprint für 2.900 € rechnet sich in etwa",
+      paybackSuffix: "Wochen",
+    },
+    badge: "Am häufigsten gebucht",
     footnote:
       "Alle Preise zzgl. USt. Die Audit-Gebühr wird bei einem anschließenden Build-Sprint vollständig angerechnet.",
     tiers: [
