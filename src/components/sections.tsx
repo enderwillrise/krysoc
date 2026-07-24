@@ -2,6 +2,11 @@ import { BOOKING_URL, CONTACT_EMAIL, type Locale } from "@/lib/site";
 import type { Dict } from "@/content/dictionary";
 import { Pipeline } from "@/components/pipeline";
 import { CountUp } from "@/components/count-up";
+import {
+  AnkommoVisual,
+  UniGetVisual,
+  EinbuergerungVisual,
+} from "@/components/work-visuals";
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -212,17 +217,26 @@ export function Services({ dict }: { dict: Dict }) {
   );
 }
 
-export function Work({ dict }: { dict: Dict }) {
+const WORK_VISUALS = [AnkommoVisual, UniGetVisual, EinbuergerungVisual];
+
+export function Work({ locale, dict }: { locale: Locale; dict: Dict }) {
   return (
     <section id="work" className="scroll-mt-24 border-y border-line-soft bg-coal/60">
       <div className="mx-auto max-w-6xl px-5 py-24">
         <SectionHead eyebrow={dict.work.eyebrow} title={dict.work.title} sub={dict.work.sub} />
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
-          {dict.work.items.map((item) => (
+          {dict.work.items.map((item, i) => {
+            const Visual = WORK_VISUALS[i];
+            return (
             <article
               key={item.name}
-              className="spot reveal flex flex-col rounded-2xl border border-line bg-card p-7 transition-transform duration-300 hover:-translate-y-1"
+              className="spot reveal flex flex-col rounded-2xl border border-line bg-card p-5 transition-transform duration-300 hover:-translate-y-1 sm:p-6"
             >
+              {Visual ? (
+                <div className="mb-5">
+                  <Visual locale={locale} />
+                </div>
+              ) : null}
               <p className="font-mono text-[11px] uppercase tracking-widest text-stone-dim">
                 {item.domain}
               </p>
@@ -239,7 +253,8 @@ export function Work({ dict }: { dict: Dict }) {
                 </p>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

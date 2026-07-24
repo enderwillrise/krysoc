@@ -32,7 +32,7 @@ export default async function LandingPage({
         <Marquee />
         <Proof locale={locale} dict={dict} />
         <Services dict={dict} />
-        <Work dict={dict} />
+        <Work locale={locale} dict={dict} />
         <Process dict={dict} />
         <Pricing dict={dict} />
         <Faq dict={dict} />

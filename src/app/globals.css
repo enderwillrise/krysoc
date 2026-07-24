@@ -236,6 +236,71 @@ html.js-reveal .reveal.is-visible {
   to { transform: rotate(360deg); }
 }
 
+/* Case-study mini-screens */
+.feed-mask {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+}
+
+.feed-track {
+  animation: feed-scroll 13s linear infinite;
+}
+
+@keyframes feed-scroll {
+  to { transform: translateY(-50%); }
+}
+
+.live-dot {
+  animation: live-pulse 2s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+/* Match-score bars fill when the card scrolls into view */
+.mock-bar-fill {
+  width: var(--w);
+  transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.js-reveal .reveal:not(.is-visible) .mock-bar-fill {
+  width: 0;
+  transition: none;
+}
+
+/* Quiz card answers itself on a loop */
+.quiz-correct {
+  animation: quiz-pick 5.5s ease-in-out infinite;
+}
+
+@keyframes quiz-pick {
+  0%, 35% { background-color: transparent; border-color: var(--color-line-soft); }
+  45%, 80% { background-color: rgba(230, 185, 99, 0.1); border-color: rgba(230, 185, 99, 0.45); }
+  92%, 100% { background-color: transparent; border-color: var(--color-line-soft); }
+}
+
+.quiz-check {
+  opacity: 0;
+  animation: quiz-check 5.5s ease-in-out infinite;
+}
+
+@keyframes quiz-check {
+  0%, 40% { opacity: 0; }
+  48%, 82% { opacity: 1; }
+  92%, 100% { opacity: 0; }
+}
+
+.quiz-progress {
+  animation: quiz-progress 11s linear infinite;
+}
+
+@keyframes quiz-progress {
+  from { width: 10%; }
+  to { width: 100%; }
+}
+
 /* Footer ghost watermark */
 .watermark {
   font-family: var(--font-unbounded), sans-serif;
@@ -266,8 +331,22 @@ details.faq[open] .faq-chevron { transform: rotate(45deg); }
   .btn-shine::after,
   .conveyor,
   .ring-rotate,
-  .ring-rotate-reverse {
+  .ring-rotate-reverse,
+  .feed-track,
+  .live-dot,
+  .quiz-correct,
+  .quiz-check,
+  .quiz-progress {
     animation: none !important;
+  }
+  .mock-bar-fill {
+    transition: none;
+  }
+  .quiz-check {
+    opacity: 1;
+  }
+  .quiz-progress {
+    width: 65%;
   }
   html.js-reveal .reveal {
     opacity: 1;
