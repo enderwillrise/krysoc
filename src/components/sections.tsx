@@ -142,13 +142,18 @@ export function Marquee() {
       aria-hidden={hidden || undefined}
       className="flex shrink-0 items-center"
     >
-      {MARQUEE_ITEMS.map((item) => (
+      {MARQUEE_ITEMS.map((item, i) => (
         <span
           key={item}
           className="flex items-center gap-10 pr-10 font-mono text-sm uppercase tracking-[0.2em] text-stone-dim"
         >
           {item}
-          <span aria-hidden className="text-[0.55rem] text-gold-deep">
+          <span
+            aria-hidden
+            className={`text-[0.55rem] ${
+              ["text-gold-deep", "text-jade-deep", "text-amethyst-deep"][i % 3]
+            }`}
+          >
             ◆
           </span>
         </span>
@@ -175,7 +180,9 @@ export function Proof({ locale, dict }: { locale: Locale; dict: Dict }) {
             <div key={s.label} className="spot bg-card px-6 py-7">
               <span
                 aria-hidden
-                className="stat-accent mb-4 block h-0.5 w-10 bg-gold"
+                className={`stat-accent mb-4 block h-0.5 w-10 ${
+                  ["bg-gold", "bg-jade", "bg-amethyst", "bg-gold"][i] ?? "bg-gold"
+                }`}
                 style={{ transitionDelay: `${0.1 + i * 0.15}s` }}
               />
               <dd className="font-display text-2xl font-bold tracking-tight text-gold sm:text-3xl">
@@ -192,6 +199,14 @@ export function Proof({ locale, dict }: { locale: Locale; dict: Dict }) {
 
 const SERVICE_DEMOS = [FlowDemo, ChatDemo, BuildDemo, AuditDemo];
 
+// Accent system: gold = primary, jade = agents/Ankommo, amethyst = custom/UniGet
+const SERVICE_ACCENTS = [
+  { hover: "hover:border-gold-deep", tag: "group-hover:text-gold", dot: "bg-gold" },
+  { hover: "hover:border-jade-deep", tag: "group-hover:text-jade", dot: "bg-jade" },
+  { hover: "hover:border-amethyst-deep", tag: "group-hover:text-amethyst", dot: "bg-amethyst" },
+  { hover: "hover:border-gold-deep", tag: "group-hover:text-gold", dot: "bg-gold" },
+];
+
 export function Services({ locale, dict }: { locale: Locale; dict: Dict }) {
   return (
     <section id="services" className="scroll-mt-24">
@@ -204,17 +219,18 @@ export function Services({ locale, dict }: { locale: Locale; dict: Dict }) {
         <div className="mt-12 grid gap-5 md:grid-cols-2">
           {dict.services.items.map((item, i) => {
             const Demo = SERVICE_DEMOS[i];
+            const accent = SERVICE_ACCENTS[i] ?? SERVICE_ACCENTS[0];
             return (
               <article
                 key={item.title}
-                className="spot reveal group rounded-2xl border border-line bg-card p-5 transition-colors hover:border-gold-deep sm:p-6"
+                className={`spot reveal group rounded-2xl border border-line bg-card p-5 transition-colors sm:p-6 ${accent.hover}`}
               >
                 {Demo ? (
                   <div className="mb-5">
                     <Demo locale={locale} />
                   </div>
                 ) : null}
-                <p className="font-mono text-xs uppercase tracking-[0.18em] text-stone-dim transition-colors group-hover:text-gold">
+                <p className={`font-mono text-xs uppercase tracking-[0.18em] text-stone-dim transition-colors ${accent.tag}`}>
                   {item.tag}
                 </p>
                 <h3 className="mt-4 font-display text-lg font-semibold leading-snug text-ivory">
@@ -227,7 +243,7 @@ export function Services({ locale, dict }: { locale: Locale; dict: Dict }) {
                 <ul className="mt-2 space-y-1.5">
                   {item.examples.map((ex) => (
                     <li key={ex} className="flex gap-2 text-sm text-stone">
-                      <span aria-hidden className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-gold" />
+                      <span aria-hidden className={`mt-[7px] h-1 w-1 shrink-0 rounded-full ${accent.dot}`} />
                       {ex}
                     </li>
                   ))}
@@ -243,6 +259,12 @@ export function Services({ locale, dict }: { locale: Locale; dict: Dict }) {
 
 const WORK_VISUALS = [AnkommoVisual, UniGetVisual, EinbuergerungVisual];
 
+const WORK_ACCENTS = [
+  { label: "text-jade", border: "border-jade-deep" },
+  { label: "text-amethyst", border: "border-amethyst-deep" },
+  { label: "text-gold", border: "border-gold-deep" },
+];
+
 export function Work({ locale, dict }: { locale: Locale; dict: Dict }) {
   return (
     <section id="work" className="scroll-mt-24 border-y border-line-soft bg-coal/60">
@@ -251,6 +273,7 @@ export function Work({ locale, dict }: { locale: Locale; dict: Dict }) {
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
           {dict.work.items.map((item, i) => {
             const Visual = WORK_VISUALS[i];
+            const accent = WORK_ACCENTS[i] ?? WORK_ACCENTS[2];
             return (
             <article
               key={item.name}
@@ -269,10 +292,10 @@ export function Work({ locale, dict }: { locale: Locale; dict: Dict }) {
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-stone">{item.body}</p>
               <div className="mt-auto pt-6">
-                <p className="font-mono text-[11px] uppercase tracking-widest text-gold">
+                <p className={`font-mono text-[11px] uppercase tracking-widest ${accent.label}`}>
                   {dict.work.resultLabel}
                 </p>
-                <p className="mt-2 border-l-2 border-gold-deep pl-3 text-sm leading-relaxed text-stone">
+                <p className={`mt-2 border-l-2 pl-3 text-sm leading-relaxed text-stone ${accent.border}`}>
                   {item.result}
                 </p>
               </div>
@@ -284,6 +307,12 @@ export function Work({ locale, dict }: { locale: Locale; dict: Dict }) {
     </section>
   );
 }
+
+const STEP_ACCENTS = [
+  { station: "border-gold-deep text-gold", chip: "text-gold" },
+  { station: "border-jade-deep text-jade", chip: "text-jade" },
+  { station: "border-amethyst-deep text-amethyst", chip: "text-amethyst" },
+];
 
 export function Process({ dict }: { dict: Dict }) {
   return (
@@ -301,16 +330,18 @@ export function Process({ dict }: { dict: Dict }) {
             className="conveyor absolute left-8 right-8 top-7 hidden h-px lg:block"
           />
           <ol className="relative grid gap-12 lg:grid-cols-3 lg:gap-8">
-            {dict.process.steps.map((step, i) => (
+            {dict.process.steps.map((step, i) => {
+              const accent = STEP_ACCENTS[i] ?? STEP_ACCENTS[0];
+              return (
               <li key={step.num} className="reveal relative lg:px-2">
                 <div className="flex items-center gap-4">
                   <span
-                    className="station relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-gold-deep bg-obsidian font-display text-sm font-bold text-gold"
+                    className={`station relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border bg-obsidian font-display text-sm font-bold ${accent.station}`}
                     style={{ "--d": `${i * 1}s` } as React.CSSProperties}
                   >
                     {step.num}
                   </span>
-                  <span className="rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-gold">
+                  <span className={`rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-widest ${accent.chip}`}>
                     {step.duration}
                   </span>
                 </div>
@@ -321,7 +352,8 @@ export function Process({ dict }: { dict: Dict }) {
                   {step.body}
                 </p>
               </li>
-            ))}
+              );
+            })}
           </ol>
         </div>
       </div>
@@ -416,7 +448,12 @@ export function Faq({ dict }: { dict: Dict }) {
           {dict.faq.items.map((item, i) => (
             <details key={item.q} className="faq reveal rounded-xl border border-line bg-card">
               <summary className="flex cursor-pointer list-none items-center gap-4 px-6 py-5 text-base font-medium text-ivory">
-                <span aria-hidden className="font-mono text-[11px] text-stone-dim">
+                <span
+                  aria-hidden
+                  className={`font-mono text-[11px] ${
+                    ["text-gold", "text-jade", "text-amethyst"][i % 3]
+                  }`}
+                >
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="flex-1">{item.q}</span>

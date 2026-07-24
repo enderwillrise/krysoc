@@ -3,13 +3,29 @@ import type { Locale } from "@/lib/site";
 // Animated mini-screens for the case-study cards. Pure markup + CSS
 // (keyframes in globals.css) — no client JS, reduced-motion safe.
 
+type Accent = "gold" | "jade" | "amethyst";
+
+const ACCENT_TEXT: Record<Accent, string> = {
+  gold: "text-gold",
+  jade: "text-jade",
+  amethyst: "text-amethyst",
+};
+
+const ACCENT_BG: Record<Accent, string> = {
+  gold: "bg-gold",
+  jade: "bg-jade",
+  amethyst: "bg-amethyst",
+};
+
 function MockFrame({
   label,
   live,
+  accent = "gold",
   children,
 }: {
   label: string;
   live?: string;
+  accent?: Accent;
   children: React.ReactNode;
 }) {
   return (
@@ -22,8 +38,8 @@ function MockFrame({
         </span>
         <span className="font-mono text-[9px] tracking-widest text-stone-dim">{label}</span>
         {live ? (
-          <span className="flex items-center gap-1.5 font-mono text-[9px] text-gold">
-            <span className="live-dot h-1.5 w-1.5 rounded-full bg-gold" />
+          <span className={`flex items-center gap-1.5 font-mono text-[9px] ${ACCENT_TEXT[accent]}`}>
+            <span className={`live-dot h-1.5 w-1.5 rounded-full ${ACCENT_BG[accent]}`} />
             {live}
           </span>
         ) : (
@@ -65,7 +81,7 @@ export function AnkommoVisual({ locale }: { locale: Locale }) {
             <path
               d="M2 6.5 5 9.5 10 3"
               fill="none"
-              stroke="#e6b963"
+              stroke="#57c39b"
               strokeWidth="1.6"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -77,7 +93,7 @@ export function AnkommoVisual({ locale }: { locale: Locale }) {
     </ul>
   );
   return (
-    <MockFrame label="ops.ankommo.de" live="LIVE">
+    <MockFrame label="ops.ankommo.de" live="LIVE" accent="jade">
       <div className="feed-mask h-full overflow-hidden">
         <div className="feed-track">
           {list(false)}
@@ -99,6 +115,7 @@ export function UniGetVisual({ locale }: { locale: Locale }) {
     <MockFrame
       label="uniget"
       live={locale === "de" ? "6 ANTWORTEN" : "6 ANSWERS"}
+      accent="amethyst"
     >
       <p className="font-mono text-[9px] uppercase tracking-widest text-stone-dim">
         {locale === "de" ? "Deine besten Matches" : "Your top matches"}
@@ -108,11 +125,11 @@ export function UniGetVisual({ locale }: { locale: Locale }) {
           <li key={name}>
             <div className="flex items-baseline justify-between font-mono text-[10px]">
               <span className="text-stone">{name}</span>
-              <span className="text-gold">{score}%</span>
+              <span className="text-amethyst">{score}%</span>
             </div>
             <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-line-soft">
               <div
-                className="mock-bar-fill h-full rounded-full bg-gradient-to-r from-gold-deep to-gold"
+                className="mock-bar-fill h-full rounded-full bg-gradient-to-r from-amethyst-deep to-amethyst"
                 style={{
                   "--w": `${score}%`,
                   transitionDelay: `${0.15 + i * 0.2}s`,

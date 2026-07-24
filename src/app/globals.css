@@ -14,6 +14,10 @@
   --color-gold-soft: #f1d9a6;
   --color-gold-deep: #b8863b;
   --color-ember: #7a4f1d;
+  --color-jade: #57c39b;
+  --color-jade-deep: #2e7a61;
+  --color-amethyst: #a58fe6;
+  --color-amethyst-deep: #6d55b0;
 
   --animate-node-pulse: node-pulse 3.2s ease-in-out infinite;
 }
@@ -107,11 +111,11 @@ body::after {
 }
 
 .aurora-c {
-  width: 18rem;
-  height: 18rem;
-  top: 30%;
+  width: 20rem;
+  height: 20rem;
+  top: 28%;
   left: 38%;
-  background: radial-gradient(circle, rgba(230, 185, 99, 0.07), transparent 60%);
+  background: radial-gradient(circle, rgba(87, 195, 155, 0.07), transparent 60%);
   animation: drift-a 36s ease-in-out infinite alternate-reverse;
 }
 
@@ -397,13 +401,13 @@ html.js-reveal .reveal:not(.is-visible) .mock-bar-fill {
   96%, 100% { opacity: 0; }
 }
 
-/* Process stations: expanding ping ring */
+/* Process stations: expanding ping ring (color follows the station's text) */
 .station::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  border: 1px solid var(--color-gold);
+  border: 1px solid currentColor;
   animation: station-ping 3.2s ease-out infinite;
   animation-delay: var(--d, 0s);
 }

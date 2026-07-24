@@ -88,13 +88,13 @@ export function ChatDemo({ locale }: { locale: Locale }) {
           {t.q}
         </div>
         <div className="chat-typing flex gap-1 self-end pr-1" aria-hidden>
-          <span className="typing-dot h-1.5 w-1.5 rounded-full bg-gold-deep" />
-          <span className="typing-dot h-1.5 w-1.5 rounded-full bg-gold-deep" style={{ animationDelay: "0.15s" }} />
-          <span className="typing-dot h-1.5 w-1.5 rounded-full bg-gold-deep" style={{ animationDelay: "0.3s" }} />
+          <span className="typing-dot h-1.5 w-1.5 rounded-full bg-jade-deep" />
+          <span className="typing-dot h-1.5 w-1.5 rounded-full bg-jade-deep" style={{ animationDelay: "0.15s" }} />
+          <span className="typing-dot h-1.5 w-1.5 rounded-full bg-jade-deep" style={{ animationDelay: "0.3s" }} />
         </div>
-        <div className="chat-b2 max-w-[85%] self-end rounded-xl rounded-br-sm border border-gold-deep/50 bg-[#1d1809] px-3 py-1.5 text-[11px] text-ivory">
+        <div className="chat-b2 max-w-[85%] self-end rounded-xl rounded-br-sm border border-jade-deep/60 bg-[#0f1e17] px-3 py-1.5 text-[11px] text-ivory">
           {t.a}
-          <span className="mt-1 block font-mono text-[8px] tracking-widest text-gold">
+          <span className="mt-1 block font-mono text-[8px] tracking-widest text-jade">
             {t.tag}
           </span>
         </div>
@@ -124,9 +124,9 @@ export function BuildDemo({ locale }: { locale: Locale }) {
       <div className="flex h-full flex-col justify-center gap-2.5 font-mono text-[10.5px]">
         <p className="type-line type-line-1 text-stone">{lines[0]}</p>
         <p className="type-line type-line-2 text-stone-dim">{lines[1]}</p>
-        <p className="type-line type-line-3 text-gold">{lines[2]}</p>
+        <p className="type-line type-line-3 text-amethyst">{lines[2]}</p>
       </div>
-      <span aria-hidden className="type-caret absolute bottom-3 left-4 h-3 w-1.5 bg-gold" />
+      <span aria-hidden className="type-caret absolute bottom-3 left-4 h-3 w-1.5 bg-amethyst" />
     </DemoShell>
   );
 }
