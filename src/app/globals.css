@@ -19,6 +19,15 @@
   --color-amethyst: #a58fe6;
   --color-amethyst-deep: #6d55b0;
 
+  /* Kadenz only (/kadenz). NOT a fourth brand accent — the marketing site's
+     gold/jade/amethyst rotation is unchanged and must stay that way. This is a
+     functional failure state for an internal ops tool, where "something is
+     broken" cannot be signalled by a jewel tone without being misread. Do not
+     use `rust` anywhere under [locale]/. */
+  --color-rust: #d4674a;
+  --color-rust-deep: #8a3d28;
+  --color-elevated: #1f1a13;
+
   --animate-node-pulse: node-pulse 3.2s ease-in-out infinite;
 }
 
@@ -505,4 +514,51 @@ details.faq[open] .faq-chevron { transform: rotate(45deg); }
     transition: none;
   }
   .pipeline-dot { display: none; }
+}
+
+/* ================================================================
+   Kadenz app chrome — used ONLY under /kadenz.
+   Nothing here is referenced by the marketing site; these class names
+   were checked against globals.css for collisions before being added.
+   ================================================================ */
+
+.dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  flex: none;
+}
+
+.card {
+  background: var(--color-card);
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+}
+
+.card-hover {
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.card-hover:hover {
+  border-color: var(--color-gold-deep);
+  transform: translateY(-2px);
+}
+
+.eyebrow {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-stone-dim);
+}
+
+/* Wide content (tables, the queue grid) scrolls inside its own container so
+   the page body never scrolls horizontally. */
+.scroll-x {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
 }

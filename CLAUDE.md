@@ -184,6 +184,63 @@ our own companies first") is deliberate.
 `BOOKING_URL`, `CONTACT_EMAIL`, `SITE_URL`, and the locale helpers. Every CTA
 routes through `BOOKING_URL` — change it in one place.
 
+## Kadenz (`/kadenz`) — internal tool, not the marketing site
+
+**Kadenz** is Krysoc's social-content product: it onboards a client brand from a
+competitor audit, generates daily posts, routes each one through a QA gate and a
+client approval, then publishes and **verifies the post actually went live**.
+The `/kadenz` route is the **UI skeleton only** — every screen renders from
+fixtures in `src/lib/kadenz/fixtures.ts`. Nothing is wired to a live account.
+
+> ⚠️ **Unlisted, not private.** This repo is public and Pages is static, so
+> there is no auth and there cannot be. `robots: noindex` is set, and that is
+> the entire protection. **Never put a credential, client name, real client
+> content, or an API key under `src/*/kadenz/`.** When the backend lands, Kadenz
+> moves to a host with real auth (Cloudflare Pages + Access, or Fly/Render) —
+> that migration is a prerequisite for the first real tenant, not a nice-to-have.
+
+### Layout
+
+| Path | Contents |
+|---|---|
+| `src/app/kadenz/` | Routes + its own **second root layout** (`<html>`/`<body>`) |
+| `src/lib/kadenz/schema.ts` | Zod types — the shapes the future engine produces |
+| `src/lib/kadenz/fixtures.ts` | All mock data, typed against the schema |
+| `src/components/kadenz/ui.tsx` | Status pills, buttons, `MockImage` |
+
+### Rules that keep it from leaking into the marketing site
+
+- **Two root layouts, on purpose.** There is no `src/app/layout.tsx`;
+  `[locale]/layout.tsx` and `kadenz/layout.tsx` are siblings, each with its own
+  `<html>`/`<body>`. This is why a Kadenz change can't alter the marketing
+  document shell. Adding a top-level `layout.tsx` would break both.
+- **Kadenz is English-only** and deliberately exempt from the
+  `dictionary.ts` bilingual rule — it's an internal ops tool, not site copy.
+  Don't add its strings to the `Dict`.
+- **`rust` (`#d4674a`) is Kadenz-only.** It is a functional failure state, *not*
+  a fourth brand accent. The gold/jade/amethyst rotation is unchanged. Never use
+  `rust` under `[locale]/`.
+- **Trailing slashes are mandatory** on every internal Kadenz link
+  (`/kadenz/queue/`) — `trailingSlash: true`, so a missing slash costs a
+  redirect hop.
+- **Every dynamic route needs `generateStaticParams()`** (`brands/[slug]`,
+  `runs/[id]`) or the static export fails at build.
+- The shared class names (`.card`, `.dot`, `.eyebrow`, `.scroll-x`) were checked
+  against `globals.css` for collisions before being added. Check again before
+  adding more.
+
+### Design decisions worth keeping
+
+- **`AuditFinding.evidence` is `.min(1)`** — a competitor-audit finding that
+  can't point at the posts supporting it fails validation and cannot render.
+  This is a deliberate guard against asserting visual analysis that was never
+  actually performed.
+- **`accepted` and `verified` are separate publish states.** "The provider took
+  the request" and "the post is live" are different facts; conflating them is
+  what silently dropped Ankommo's Instagram carousel posts.
+- **Lane names are format descriptions** (`photo_carousel`, `news_card`), never
+  a specific brand's lane names. The engine has to stay tenant-neutral.
+
 ## Known TODOs
 
 - **`hello@krysoc.com` does not exist yet.** It's shown in the footer and final
