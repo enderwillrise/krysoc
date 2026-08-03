@@ -30,6 +30,7 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dict }) {
             {[
               { href: `/${locale}/#services`, label: dict.nav.services },
               { href: `/${locale}/#work`, label: dict.nav.work },
+              { href: `/${locale}/#concepts`, label: dict.nav.concepts },
               { href: `/${locale}/#pricing`, label: dict.nav.pricing },
               { href: `/${locale}/#faq`, label: dict.nav.faq },
             ].map((l) => (

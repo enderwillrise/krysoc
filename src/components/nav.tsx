@@ -7,6 +7,7 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dict }) {
   const links = [
     { href: `/${locale}/#services`, label: dict.nav.services },
     { href: `/${locale}/#work`, label: dict.nav.work },
+    { href: `/${locale}/#concepts`, label: dict.nav.concepts },
     { href: `/${locale}/#process`, label: dict.nav.process },
     { href: `/${locale}/#pricing`, label: dict.nav.pricing },
     { href: `/${locale}/#faq`, label: dict.nav.faq },
@@ -22,7 +23,7 @@ export function Nav({ locale, dict }: { locale: Locale; dict: Dict }) {
           krysoc<span className="text-gold">.</span>
         </Link>
 
-        <div className="hidden items-center gap-7 md:flex">
+        <div className="hidden items-center gap-5 md:flex lg:gap-7">
           {links.map((l) => (
             <Link
               key={l.href}

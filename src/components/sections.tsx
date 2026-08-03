@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BOOKING_URL, CONTACT_EMAIL, type Locale } from "@/lib/site";
 import type { Dict } from "@/content/dictionary";
 import { Pipeline } from "@/components/pipeline";
@@ -14,6 +15,11 @@ import {
   AuditDemo,
 } from "@/components/service-visuals";
 import { RoiWidget } from "@/components/roi-widget";
+import {
+  RestaurantPreview,
+  PraxisPreview,
+  HandwerkPreview,
+} from "@/components/concept-previews";
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -302,6 +308,97 @@ export function Work({ locale, dict }: { locale: Locale; dict: Dict }) {
             </article>
             );
           })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const CONCEPT_PREVIEWS = [RestaurantPreview, PraxisPreview, HandwerkPreview];
+const CONCEPT_HREFS = ["/demo/restaurant/", "/demo/praxis/", "/demo/handwerk/"];
+const CONCEPT_ACCENTS = [
+  { border: "hover:border-gold-deep", text: "text-gold" },
+  { border: "hover:border-jade-deep", text: "text-jade" },
+  { border: "hover:border-amethyst-deep", text: "text-amethyst" },
+];
+
+/**
+ * Links out to the concept demos at /demo/*. Those sit under a separate root
+ * layout with their own stylesheet; Next handles that by doing a full page
+ * load rather than a client-side transition, so the document shell (and CSS)
+ * swaps cleanly.
+ */
+export function Concepts({ dict }: { dict: Dict }) {
+  return (
+    <section id="concepts" className="scroll-mt-24">
+      <div className="mx-auto max-w-6xl px-5 py-24">
+        <SectionHead
+          eyebrow={dict.concepts.eyebrow}
+          title={dict.concepts.title}
+          sub={dict.concepts.sub}
+        />
+
+        <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          {dict.concepts.items.map((item, i) => {
+            const Preview = CONCEPT_PREVIEWS[i];
+            const accent = CONCEPT_ACCENTS[i] ?? CONCEPT_ACCENTS[0];
+            return (
+              <Link
+                key={item.name}
+                href={CONCEPT_HREFS[i]!}
+                className={`spot reveal group flex flex-col rounded-2xl border border-line bg-card p-5 transition-all duration-300 hover:-translate-y-1 sm:p-6 ${accent.border}`}
+              >
+                {Preview ? (
+                  <div className="mb-5 overflow-hidden rounded-lg ring-1 ring-line">
+                    <Preview />
+                  </div>
+                ) : null}
+                <p className="font-mono text-[11px] uppercase tracking-widest text-stone-dim">
+                  {item.kicker}
+                </p>
+                <h3 className="mt-2 font-display text-lg font-semibold text-ivory">
+                  {item.name}
+                </h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-stone">
+                  {item.body}
+                </p>
+                <span
+                  className={`mt-5 inline-flex items-center gap-2 text-sm font-semibold ${accent.text}`}
+                >
+                  {item.cta}
+                  <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="reveal mt-8 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-line bg-card px-6 py-5">
+          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            {dict.concepts.included.map((item) => (
+              <li key={item} className="flex items-center gap-2 text-sm text-stone">
+                <svg aria-hidden viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0">
+                  <path
+                    d="M3 8.5 6.5 12 13 4.5"
+                    fill="none"
+                    stroke="#e6b963"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/demo/"
+            className="shrink-0 rounded-full border border-line px-5 py-2.5 text-sm text-ivory transition-colors hover:border-gold-deep"
+          >
+            {dict.concepts.allCta} →
+          </Link>
         </div>
       </div>
     </section>

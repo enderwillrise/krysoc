@@ -5,6 +5,7 @@ export interface Dict {
   nav: {
     services: string;
     work: string;
+    concepts: string;
     process: string;
     pricing: string;
     faq: string;
@@ -38,6 +39,14 @@ export interface Dict {
     sub: string;
     items: { name: string; domain: string; body: string; result: string }[];
     resultLabel: string;
+  };
+  concepts: {
+    eyebrow: string;
+    title: string;
+    sub: string;
+    items: { kicker: string; name: string; body: string; cta: string }[];
+    included: string[];
+    allCta: string;
   };
   process: {
     eyebrow: string;
@@ -99,6 +108,7 @@ const en: Dict = {
   nav: {
     services: "Services",
     work: "Work",
+    concepts: "Concepts",
     process: "Process",
     pricing: "Pricing",
     faq: "FAQ",
@@ -200,6 +210,38 @@ const en: Dict = {
           "A monetized product with 667 pages generated and maintained programmatically — near-zero manual operations.",
       },
     ],
+  },
+  concepts: {
+    eyebrow: "Websites for local business",
+    title: "Your industry, already designed.",
+    sub: "Not every problem needs an automation. Sometimes the bottleneck is a website that nobody can book through. These are complete concepts — click into one and use it as if it were yours.",
+    items: [
+      {
+        kicker: "Restaurant",
+        name: "Trattoria Salvia",
+        body: "Menu that stays current, daily lunch, live opening status and reservations wired into the booking system the restaurant already pays for.",
+        cta: "Open concept",
+      },
+      {
+        kicker: "Medical practice",
+        name: "Praxis am Lindenplatz",
+        body: "Online appointments in the first screen, connected to Doctolib, samedi, Jameda or Dr. Flex. Plus repeat prescriptions and emergency numbers.",
+        cta: "Open concept",
+      },
+      {
+        kicker: "Trades",
+        name: "Hartmann Haustechnik",
+        body: "Emergency number always visible, a heat-pump subsidy calculator that answers the first question every customer asks, and a careers section that actually recruits.",
+        cta: "Open concept",
+      },
+    ],
+    included: [
+      "Hosted in Germany",
+      "No cookie banner",
+      "Imprint & privacy done right",
+      "Connected to your booking system",
+    ],
+    allCta: "See all concepts",
   },
   process: {
     eyebrow: "Process",
@@ -339,6 +381,7 @@ const de: Dict = {
   nav: {
     services: "Leistungen",
     work: "Referenzen",
+    concepts: "Konzepte",
     process: "Ablauf",
     pricing: "Preise",
     faq: "FAQ",
@@ -440,6 +483,38 @@ const de: Dict = {
           "Ein monetarisiertes Produkt mit 667 programmatisch erzeugten und gepflegten Seiten — nahezu ohne manuellen Betrieb.",
       },
     ],
+  },
+  concepts: {
+    eyebrow: "Websites für lokale Unternehmen",
+    title: "Ihre Branche, schon entworfen.",
+    sub: "Nicht jedes Problem braucht eine Automatisierung. Manchmal ist der Engpass eine Website, über die niemand buchen kann. Das hier sind fertige Konzepte — klicken Sie hinein und nutzen Sie sie, als wären es Ihre.",
+    items: [
+      {
+        kicker: "Restaurant",
+        name: "Trattoria Salvia",
+        body: "Speisekarte, die aktuell bleibt, Mittagstisch, Öffnungszeiten mit Live-Status und Reservierung an das Tischbuch angebunden, das das Restaurant ohnehin bezahlt.",
+        cta: "Konzept öffnen",
+      },
+      {
+        kicker: "Arztpraxis",
+        name: "Praxis am Lindenplatz",
+        body: "Online-Termine im ersten Bildschirm, angebunden an Doctolib, samedi, Jameda oder Dr. Flex. Dazu Folgerezepte und Notfallnummern.",
+        cta: "Konzept öffnen",
+      },
+      {
+        kicker: "Handwerk",
+        name: "Hartmann Haustechnik",
+        body: "Notdienstnummer immer sichtbar, ein Förderrechner, der die erste Frage jedes Kunden beantwortet, und ein Karrierebereich, der wirklich Bewerbungen bringt.",
+        cta: "Konzept öffnen",
+      },
+    ],
+    included: [
+      "Hosting in Deutschland",
+      "Ohne Cookie-Banner",
+      "Impressum & Datenschutz korrekt",
+      "An Ihr Buchungssystem angebunden",
+    ],
+    allCta: "Alle Konzepte ansehen",
   },
   process: {
     eyebrow: "Ablauf",

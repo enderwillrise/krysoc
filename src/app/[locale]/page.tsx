@@ -9,6 +9,7 @@ import {
   Proof,
   Services,
   Work,
+  Concepts,
   Process,
   Pricing,
   Faq,
@@ -33,6 +34,7 @@ export default async function LandingPage({
         <Proof locale={locale} dict={dict} />
         <Services locale={locale} dict={dict} />
         <Work locale={locale} dict={dict} />
+        <Concepts dict={dict} />
         <Process dict={dict} />
         <Pricing locale={locale} dict={dict} />
         <Faq dict={dict} />
