@@ -1,0 +1,282 @@
+@import "tailwindcss";
+
+/* ================================================================
+   Krysoc concept demos (/demo/*) — SEPARATE from globals.css.
+   Each demo is a different business with its own identity; the whole
+   point is that they must NOT look like the Krysoc marketing site or
+   like each other. Token prefixes keep the three palettes apart:
+     rst- = Trattoria Salvia (restaurant)
+     prx- = Praxis am Lindenplatz (Arztpraxis)
+     hwk- = Hartmann Haustechnik (SHK-Meisterbetrieb)
+   `ks-` is the Krysoc brand, used ONLY by the concept bar.
+   ================================================================ */
+
+@theme {
+  /* --- Krysoc concept bar only --- */
+  --color-ks-obsidian: #0a0907;
+  --color-ks-gold: #e6b963;
+  --color-ks-ivory: #f4efe4;
+  --color-ks-stone: #a69c87;
+
+  /* --- Restaurant: warm dark, candlelit dining room --- */
+  --color-rst-ink: #171009;
+  --color-rst-night: #221810;
+  --color-rst-panel: #2c2016;
+  --color-rst-line: #3d2e21;
+  --color-rst-cream: #f6ece0;
+  --color-rst-sand: #c3ac93;
+  --color-rst-olive: #8a9a63;
+  --color-rst-amber: #d9a05b;
+  --color-rst-wine: #8c3446;
+
+  /* --- Arztpraxis: light, calm, human --- */
+  --color-prx-paper: #f5f8f8;
+  --color-prx-white: #ffffff;
+  --color-prx-ink: #122e2c;
+  --color-prx-body: #4c6362;
+  --color-prx-mute: #7d918f;
+  --color-prx-line: #dde8e6;
+  --color-prx-teal: #10736a;
+  --color-prx-teal-deep: #0a4f49;
+  --color-prx-mint: #dcedea;
+  --color-prx-sun: #e0913a;
+
+  /* --- Handwerk: bold, industrial, high contrast --- */
+  --color-hwk-steel: #12171c;
+  --color-hwk-slate: #29323b;
+  --color-hwk-grey: #5d6a76;
+  --color-hwk-fog: #eef1f4;
+  --color-hwk-white: #ffffff;
+  --color-hwk-line: #d5dce2;
+  --color-hwk-signal: #f4531f;
+  --color-hwk-flame: #b83c12;
+  --color-hwk-sky: #2c7cc4;
+}
+
+/* Font tokens MUST be `inline` — next/font sets its vars on the element that
+   carries the className (a wrapper div here), and a plain @theme would emit
+   utilities against :root and silently fall back to the system font. */
+@theme inline {
+  --font-rst-display: var(--font-bodoni);
+  --font-rst-body: var(--font-jost);
+  --font-prx-display: var(--font-newsreader);
+  --font-prx-body: var(--font-manrope);
+  --font-hwk-display: var(--font-barlow-condensed);
+  --font-hwk-body: var(--font-barlow);
+  --font-ks-mono: var(--font-plex-mono);
+  --font-ks-display: var(--font-unbounded);
+  --font-ks-body: var(--font-archivo);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: var(--color-ks-gold);
+  color: var(--color-ks-obsidian);
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ================================================================
+   Concept bar — the one element shared by every demo.
+   It is both the disclaimer (these businesses are fictional) and the
+   sales CTA. Never remove it: without it a demo page could be mistaken
+   for a real practice or restaurant.
+   ================================================================ */
+
+.concept-bar {
+  background: var(--color-ks-obsidian);
+  color: var(--color-ks-ivory);
+}
+
+/* ================================================================
+   Shared motion. Reveal follows the marketing site's contract:
+   content is visible by default and only hidden once JS has proven it
+   can reveal it again (html.js-reveal). Never invert this.
+   ================================================================ */
+
+@keyframes d-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.d-rise { animation: d-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.d-rise-1 { animation-delay: 0.05s; }
+.d-rise-2 { animation-delay: 0.15s; }
+.d-rise-3 { animation-delay: 0.25s; }
+.d-rise-4 { animation-delay: 0.35s; }
+
+html.js-reveal .d-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.js-reveal .d-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Live "open now" dot, used by all three demos */
+.live-dot { animation: live-pulse 2.2s ease-in-out infinite; }
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* ================================================================
+   Restaurant
+   ================================================================ */
+
+/* Warm "photograph" tiles — a deliberate stand-in for real food photos.
+   Swap these for the client's shoot; the ratio and radius stay. */
+.rst-photo {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(80% 60% at 30% 20%, rgba(217, 160, 91, 0.5), transparent 70%),
+    radial-gradient(70% 70% at 80% 80%, rgba(140, 52, 70, 0.45), transparent 70%),
+    linear-gradient(160deg, #3a2a1d, #1d1510);
+}
+
+.rst-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+.rst-photo-olive {
+  background:
+    radial-gradient(75% 65% at 25% 25%, rgba(138, 154, 99, 0.5), transparent 70%),
+    radial-gradient(70% 70% at 85% 75%, rgba(217, 160, 91, 0.35), transparent 70%),
+    linear-gradient(160deg, #2f3324, #171009);
+}
+
+.rst-photo-wine {
+  background:
+    radial-gradient(75% 65% at 70% 20%, rgba(140, 52, 70, 0.55), transparent 70%),
+    radial-gradient(60% 60% at 20% 85%, rgba(217, 160, 91, 0.3), transparent 70%),
+    linear-gradient(150deg, #34161f, #171009);
+}
+
+/* Candle glow behind the hero */
+.rst-glow {
+  background:
+    radial-gradient(48rem 26rem at 72% 8%, rgba(217, 160, 91, 0.16), transparent 62%),
+    radial-gradient(38rem 22rem at 8% 100%, rgba(140, 52, 70, 0.2), transparent 62%);
+}
+
+.rst-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-rst-line), transparent);
+}
+
+/* ================================================================
+   Arztpraxis
+   ================================================================ */
+
+.prx-hero {
+  background:
+    radial-gradient(60% 80% at 85% 0%, rgba(220, 237, 234, 0.9), transparent 65%),
+    radial-gradient(50% 60% at 0% 100%, rgba(224, 145, 58, 0.08), transparent 65%),
+    var(--color-prx-paper);
+}
+
+.prx-card {
+  box-shadow: 0 1px 2px rgba(18, 46, 44, 0.04), 0 8px 24px rgba(18, 46, 44, 0.06);
+}
+
+/* Booking panel — mock of the practice's real scheduler embed */
+.prx-slot {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.prx-slot-pulse { animation: prx-slot-pulse 6s ease-in-out infinite; }
+
+@keyframes prx-slot-pulse {
+  0%, 42% { background-color: var(--color-prx-white); border-color: var(--color-prx-line); }
+  50%, 88% { background-color: var(--color-prx-mint); border-color: var(--color-prx-teal); }
+  96%, 100% { background-color: var(--color-prx-white); border-color: var(--color-prx-line); }
+}
+
+.prx-cursor { animation: prx-cursor 6s ease-in-out infinite; }
+
+@keyframes prx-cursor {
+  0%, 30% { opacity: 0; transform: translate(-12px, 14px); }
+  40%, 52% { opacity: 1; transform: translate(0, 0); }
+  62%, 100% { opacity: 0; transform: translate(0, 0); }
+}
+
+/* ================================================================
+   Handwerk
+   ================================================================ */
+
+.hwk-hero {
+  background:
+    linear-gradient(115deg, var(--color-hwk-steel) 0%, var(--color-hwk-steel) 52%, var(--color-hwk-slate) 52%, var(--color-hwk-slate) 100%);
+}
+
+/* Hazard stripe used on the emergency band */
+.hwk-stripe {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(244, 83, 31, 0.9) 0 12px,
+    rgba(18, 23, 28, 0.9) 12px 24px
+  );
+  background-size: 34px 34px;
+  animation: hwk-stripe 1.4s linear infinite;
+}
+
+@keyframes hwk-stripe {
+  to { background-position: 34px 0; }
+}
+
+.hwk-photo {
+  background:
+    linear-gradient(140deg, rgba(44, 124, 196, 0.35), transparent 55%),
+    linear-gradient(20deg, rgba(244, 83, 31, 0.25), transparent 60%),
+    linear-gradient(160deg, #29323b, #12171c);
+}
+
+/* Funding bar fills on reveal */
+.hwk-bar-fill {
+  width: var(--w, 0%);
+  transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.js-reveal .d-reveal:not(.is-visible) .hwk-bar-fill {
+  width: 0;
+  transition: none;
+}
+
+/* ================================================================
+   Reduced motion — every animation above must be listed here.
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .d-rise,
+  .live-dot,
+  .prx-slot-pulse,
+  .prx-cursor,
+  .hwk-stripe {
+    animation: none !important;
+  }
+  html.js-reveal .d-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .hwk-bar-fill { transition: none; }
+  .prx-cursor { display: none; }
+}

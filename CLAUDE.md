@@ -241,6 +241,57 @@ fixtures in `src/lib/kadenz/fixtures.ts`. Nothing is wired to a live account.
 - **Lane names are format descriptions** (`photo_carousel`, `news_card`), never
   a specific brand's lane names. The engine has to stay tenant-neutral.
 
+## Concept demos (`/demo/*`) — sales collateral
+
+Three fictional local businesses, built so a prospect can see what their own
+site would look like. Sent as a direct link during sales conversations; the
+hub at `/demo/` is the entry point. **Not linked from the marketing nav.**
+
+| Route | Business | Sells on |
+|---|---|---|
+| `/demo/restaurant/` | Trattoria Salvia | Speisekarte, Mittagstisch, live open/closed, reservation |
+| `/demo/praxis/` | Praxis am Lindenplatz | **Doctolib booking** front and centre, Rezept-Anforderung, Sprechzeiten |
+| `/demo/handwerk/` | Hartmann Haustechnik | Wärmepumpen-Förderrechner, 24h-Notdienst, Azubi-Gewinnung |
+
+### Rules
+
+- **A THIRD root layout** (`src/app/demo/layout.tsx`), sibling to
+  `[locale]/` and `kadenz/`. Still no `src/app/layout.tsx`.
+- **Own stylesheet — `src/app/demo/demo.css`, never `globals.css`.** The whole
+  point is that these must not look like Krysoc or like each other. Palettes
+  are prefixed `rst-` / `prx-` / `hwk-`; `ks-` is Krysoc's, used only by the
+  concept bar. Never use a `ks-` token inside a demo's own design.
+- **Fonts per demo**, declared once in `src/app/demo/fonts.ts` and applied via
+  a wrapper `className` — so no page ships families it doesn't use. Same
+  `@theme inline` rule as the marketing site.
+- **German-only**, deliberately outside the `dictionary.ts` bilingual rule.
+  The audience is German local businesses.
+- **`ConceptBar` is mandatory on every demo page.** It is simultaneously the
+  disclaimer ("Beispiel, frei erfunden") and the sales CTA. Removing it would
+  leave a fictional Arztpraxis looking like a real one.
+- **`noindex` is set on the whole `/demo` tree** in the layout metadata. Keep
+  it. A fake practice must never appear in search results.
+- **Everything is fictional and must stay obviously so**: invented businesses,
+  `089 000 00 00` phone numbers, `.example` email domains, placeholder VAT and
+  register numbers. Never put a real business's details in a demo.
+- Mock forms are inert previews and say so. Don't wire them to anything — a
+  static export has no backend, and a form that silently drops a patient's
+  message is worse than no form.
+
+### Facts that need re-checking before a real client deployment
+
+- **The Förderrechner numbers are illustrative** (base 30 % + speed 20 % +
+  income 30 %, capped at 70 %, against €30,000 eligible cost). BEG rules change;
+  re-verify against current BAFA/KfW guidance before this goes live for a real
+  Handwerksbetrieb. The on-page text already frames it as unverbindlich.
+- **The demos claim German hosting** — that is the product being sold, and it is
+  true of a real client deployment (Hetzner/IONOS/Netcup). These demo pages
+  themselves sit on GitHub Pages, which is not German-hosted. Fine for a
+  concept; **not fine to reuse this exact wording on a client's live site
+  unless it is actually hosted in Germany.**
+- The Doctolib button points at `doctolib.de`, standing in for the practice's
+  own profile URL.
+
 ## Known TODOs
 
 - **`hello@krysoc.com` does not exist yet.** It's shown in the footer and final
