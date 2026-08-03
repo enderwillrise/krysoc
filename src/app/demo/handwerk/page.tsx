@@ -3,6 +3,7 @@ import Link from "next/link";
 import { barlowCondensed, barlow, plexMono } from "../fonts";
 import { ConceptBar } from "@/components/demo/concept-bar";
 import { FoerderRechner } from "@/components/demo/foerder-rechner";
+import { Photo } from "@/components/demo/photo";
 
 export const metadata: Metadata = {
   title: "Hartmann Haustechnik — Sanitär, Heizung, Klima",
@@ -43,9 +44,27 @@ const ABLAUF = [
 ];
 
 const REFERENZEN = [
-  { title: "Altbau, Bj. 1932", note: "Ölkessel raus, Luft-Wasser-Wärmepumpe rein", meta: "München-Giesing · 2025" },
-  { title: "Doppelhaushälfte", note: "Komplettbad barrierefrei, 9 Tage Bauzeit", meta: "Ottobrunn · 2025" },
-  { title: "Mehrfamilienhaus, 14 Parteien", note: "Heizungstausch im laufenden Betrieb", meta: "München-Sendling · 2024" },
+  {
+    title: "Altbau, Bj. 1932",
+    note: "Ölkessel raus, Luft-Wasser-Wärmepumpe rein",
+    meta: "München-Giesing · 2025",
+    img: "/img/hwk-heizraum.webp",
+    alt: "Neuer Heizraum mit Wärmepumpen-Inneneinheit und Pufferspeicher",
+  },
+  {
+    title: "Doppelhaushälfte",
+    note: "Komplettbad barrierefrei, 9 Tage Bauzeit",
+    meta: "Ottobrunn · 2025",
+    img: "/img/hwk-bad.webp",
+    alt: "Barrierefreies Bad mit bodengleicher Dusche",
+  },
+  {
+    title: "Mehrfamilienhaus, 14 Parteien",
+    note: "Heizungstausch im laufenden Betrieb",
+    meta: "München-Sendling · 2024",
+    img: "/img/hwk-montage.webp",
+    alt: "Montage der neuen Heizungsverrohrung",
+  },
 ];
 
 const GEBIET = ["München", "Ottobrunn", "Unterhaching", "Neubiberg", "Grünwald", "Pullach", "Taufkirchen", "Haar"];
@@ -148,10 +167,29 @@ export default function HandwerkDemo() {
           </div>
 
           <div className="d-rise d-rise-3 space-y-4">
-            <div className="hwk-photo aspect-4/3 rounded-lg" />
+            <Photo
+              src="/img/hwk-waermepumpe.webp"
+              alt="Wärmepumpen-Außeneinheit an einem Einfamilienhaus"
+              tint="hwk-photo"
+              className="aspect-4/3 rounded-lg"
+              priority
+              sizes="(min-width: 1024px) 40vw, 100vw"
+            />
             <div className="grid grid-cols-2 gap-4">
-              <div className="hwk-photo aspect-square rounded-lg" />
-              <div className="hwk-photo aspect-square rounded-lg" />
+              <Photo
+                src="/img/hwk-montage.webp"
+                alt="Monteur bei der Installation der Heizungsverrohrung"
+                tint="hwk-photo"
+                className="aspect-square rounded-lg"
+                sizes="(min-width: 1024px) 20vw, 45vw"
+              />
+              <Photo
+                src="/img/hwk-bad.webp"
+                alt="Frisch saniertes Badezimmer"
+                tint="hwk-photo"
+                className="aspect-square rounded-lg"
+                sizes="(min-width: 1024px) 20vw, 45vw"
+              />
             </div>
           </div>
         </div>
@@ -259,7 +297,13 @@ export default function HandwerkDemo() {
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {REFERENZEN.map((ref) => (
               <article key={ref.title} className="d-reveal">
-                <div className="hwk-photo aspect-4/3 rounded-lg" />
+                <Photo
+                  src={ref.img}
+                  alt={ref.alt}
+                  tint="hwk-photo"
+                  className="aspect-4/3 rounded-lg"
+                  sizes="(min-width: 1024px) 30vw, 100vw"
+                />
                 <h3 className="mt-5 font-hwk-display text-xl font-bold uppercase tracking-tight text-hwk-white">
                   {ref.title}
                 </h3>

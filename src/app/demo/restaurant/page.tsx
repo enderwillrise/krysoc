@@ -4,6 +4,7 @@ import { bodoni, jost, plexMono } from "../fonts";
 import { ConceptBar } from "@/components/demo/concept-bar";
 import { OpenStatus, type WeekHours } from "@/components/demo/open-status";
 import { MenuTabs } from "@/components/demo/menu-tabs";
+import { Photo } from "@/components/demo/photo";
 
 export const metadata: Metadata = {
   title: "Trattoria Salvia — Restaurant",
@@ -115,10 +116,29 @@ export default function RestaurantDemo() {
           </div>
 
           <div className="d-rise d-rise-3 grid grid-cols-2 gap-4">
-            <div className="rst-photo aspect-3/4 rounded-2xl" />
+            <Photo
+              src="/img/rst-pasta.webp"
+              alt="Tagliatelle mit Ragù auf einem dunklen Holztisch"
+              tint="rst-photo"
+              className="aspect-3/4 rounded-2xl"
+              priority
+              sizes="(min-width: 1024px) 22vw, 45vw"
+            />
             <div className="mt-10 space-y-4">
-              <div className="rst-photo rst-photo-olive aspect-square rounded-2xl" />
-              <div className="rst-photo rst-photo-wine aspect-4/5 rounded-2xl" />
+              <Photo
+                src="/img/rst-room.webp"
+                alt="Gastraum der Trattoria am Abend"
+                tint="rst-photo rst-photo-olive"
+                className="aspect-square rounded-2xl"
+                sizes="(min-width: 1024px) 22vw, 45vw"
+              />
+              <Photo
+                src="/img/rst-antipasti.webp"
+                alt="Antipasti mit Burrata und Ofentomaten"
+                tint="rst-photo rst-photo-wine"
+                className="aspect-4/5 rounded-2xl"
+                sizes="(min-width: 1024px) 22vw, 45vw"
+              />
             </div>
           </div>
         </div>
@@ -182,8 +202,20 @@ export default function RestaurantDemo() {
         <div className="mx-auto max-w-6xl px-6 py-24">
           <div className="d-reveal grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-center">
             <div className="grid grid-cols-2 gap-4">
-              <div className="rst-photo rst-photo-olive aspect-4/5 rounded-2xl" />
-              <div className="rst-photo mt-8 aspect-4/5 rounded-2xl" />
+              <Photo
+                src="/img/rst-pastamaking.webp"
+                alt="Frische Pasta wird von Hand geschnitten"
+                tint="rst-photo rst-photo-olive"
+                className="aspect-4/5 rounded-2xl"
+                sizes="(min-width: 1024px) 24vw, 45vw"
+              />
+              <Photo
+                src="/img/rst-room.webp"
+                alt="Blick in den Gastraum"
+                tint="rst-photo"
+                className="mt-8 aspect-4/5 rounded-2xl"
+                sizes="(min-width: 1024px) 24vw, 45vw"
+              />
             </div>
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-rst-olive">

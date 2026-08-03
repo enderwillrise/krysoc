@@ -13,6 +13,30 @@
  * palette changes, mirror it here.
  */
 
+import Image from "next/image";
+
+function HeroBand({
+  src,
+  alt,
+  scrim,
+  children,
+}: {
+  src: string;
+  alt: string;
+  scrim: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="relative h-[72px] w-full overflow-hidden">
+      <Image src={src} alt={alt} fill sizes="33vw" className="object-cover" />
+      <div aria-hidden className="absolute inset-0" style={{ background: scrim }} />
+      <div className="absolute inset-0 flex flex-col justify-end px-3 pb-2">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 function Chrome({
   url,
   bar,
@@ -51,26 +75,33 @@ function Chrome({
 export function RestaurantPreview() {
   return (
     <Chrome url="trattoria-salvia.de" bar="#2c2016" dot="#c3ac93">
-      <div className="h-full px-4 py-3.5" style={{ background: "#171009" }}>
-        <p className="text-[7px] tracking-[0.2em]" style={{ color: "#8a9a63" }}>
-          ITALIENISCHE KÜCHE
-        </p>
-        <p
-          className="mt-1.5 font-serif text-lg leading-tight"
-          style={{ color: "#f6ece0" }}
+      <div className="h-full" style={{ background: "#171009" }}>
+        <HeroBand
+          src="/img/rst-pasta.webp"
+          alt=""
+          scrim="linear-gradient(90deg, rgba(23,16,9,0.94) 30%, rgba(23,16,9,0.25))"
         >
-          Wie bei Nonna.
-          <span className="block italic" style={{ color: "#d9a05b" }}>
-            Nur mit Reservierung.
-          </span>
-        </p>
+          <p className="text-[7px] tracking-[0.2em]" style={{ color: "#8a9a63" }}>
+            ITALIENISCHE KÜCHE
+          </p>
+          <p
+            className="font-serif text-base leading-tight"
+            style={{ color: "#f6ece0" }}
+          >
+            Wie bei Nonna.
+            <span className="block italic" style={{ color: "#d9a05b" }}>
+              Nur mit Reservierung.
+            </span>
+          </p>
+        </HeroBand>
+        <div className="px-4 pt-2.5">
         <span
-          className="mt-2.5 inline-block rounded-full px-3 py-1 text-[8px]"
+          className="inline-block rounded-full px-3 py-1 text-[8px]"
           style={{ background: "#d9a05b", color: "#171009" }}
         >
           Tisch reservieren
         </span>
-        <div className="mt-3 space-y-1.5">
+        <div className="mt-2.5 space-y-1.5">
           {[
             ["Vitello Tonnato", "13,50"],
             ["Cacio e Pepe", "15,00"],
@@ -91,6 +122,7 @@ export function RestaurantPreview() {
             </div>
           ))}
         </div>
+        </div>
       </div>
     </Chrome>
   );
@@ -99,21 +131,28 @@ export function RestaurantPreview() {
 export function PraxisPreview() {
   return (
     <Chrome url="praxis-am-lindenplatz.de" bar="#dde8e6" dot="#7d918f">
-      <div className="h-full px-4 py-3.5" style={{ background: "#f5f8f8" }}>
-        <p className="text-[7px] tracking-[0.2em]" style={{ color: "#10736a" }}>
-          HAUSARZTPRAXIS
-        </p>
-        <p
-          className="mt-1.5 font-serif text-base leading-tight"
-          style={{ color: "#122e2c" }}
+      <div className="h-full" style={{ background: "#f5f8f8" }}>
+        <HeroBand
+          src="/img/prx-reception.webp"
+          alt=""
+          scrim="linear-gradient(90deg, rgba(245,248,248,0.95) 35%, rgba(245,248,248,0.3))"
         >
-          Termine, die sich
-          <span className="block italic" style={{ color: "#10736a" }}>
-            online buchen lassen.
-          </span>
-        </p>
+          <p className="text-[7px] tracking-[0.2em]" style={{ color: "#10736a" }}>
+            HAUSARZTPRAXIS
+          </p>
+          <p
+            className="font-serif text-sm leading-tight"
+            style={{ color: "#122e2c" }}
+          >
+            Termine, die sich
+            <span className="block italic" style={{ color: "#10736a" }}>
+              online buchen lassen.
+            </span>
+          </p>
+        </HeroBand>
+        <div className="px-4 pt-2.5">
         <div
-          className="mt-2.5 rounded-md p-2"
+          className="rounded-md p-2"
           style={{ background: "#ffffff", border: "1px solid #dde8e6" }}
         >
           <p className="text-[7px]" style={{ color: "#7d918f" }}>
@@ -141,6 +180,7 @@ export function PraxisPreview() {
         >
           Termin bei Doctolib buchen
         </span>
+        </div>
       </div>
     </Chrome>
   );
@@ -158,12 +198,16 @@ export function HandwerkPreview() {
               "repeating-linear-gradient(-45deg, #f4531f 0 5px, #12171c 5px 10px)",
           }}
         />
-        <div className="px-4 py-3">
+        <HeroBand
+          src="/img/hwk-waermepumpe.webp"
+          alt=""
+          scrim="linear-gradient(90deg, rgba(18,23,28,0.94) 32%, rgba(18,23,28,0.3))"
+        >
           <p className="text-[7px] tracking-[0.2em]" style={{ color: "#f4531f" }}>
             MEISTERBETRIEB SEIT 1998
           </p>
           <p
-            className="mt-1.5 text-lg font-bold uppercase leading-[0.95] tracking-tight"
+            className="text-base font-bold uppercase leading-[0.95] tracking-tight"
             style={{ color: "#ffffff" }}
           >
             Heizung kaputt?
@@ -171,8 +215,10 @@ export function HandwerkPreview() {
               Wir sind unterwegs.
             </span>
           </p>
+        </HeroBand>
+        <div className="px-4 pt-2.5">
           <span
-            className="mt-2.5 inline-block px-3 py-1 text-[8px] font-bold uppercase"
+            className="inline-block px-3 py-1 text-[8px] font-bold uppercase"
             style={{ background: "#f4531f", color: "#ffffff" }}
           >
             Kostenloses Angebot

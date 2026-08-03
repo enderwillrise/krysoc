@@ -278,6 +278,25 @@ hub at `/demo/` is the entry point. **Not linked from the marketing nav.**
   static export has no backend, and a form that silently drops a patient's
   message is worse than no form.
 
+### Photography
+
+`public/img/` holds AI-generated stand-in photos (`rst-` / `prx-` / `hwk-`
+prefixes), ~600 KB total, WebP at 1200px wide. Rendered through
+`components/demo/photo.tsx`, which keeps the old gradient behind the image so a
+missing file degrades to the previous look rather than a broken-image icon.
+
+- **No identifiable faces anywhere.** The trades photos show gloved hands only,
+  the practice rooms are empty. A fictional practice must never appear to show
+  real staff — and the Team section deliberately uses initials, not portraits.
+- These exist so the concepts don't look unfinished. **A real client's site uses
+  their own photos** — that's part of the sale, and swapping the file is the
+  only change needed.
+- `images.unoptimized` is on (static export has no image server), so files are
+  resized and compressed at generation time, not at request time.
+- Regenerate with the script kept in the session scratchpad; it calls the
+  OpenAI images API via `curl` (this machine's Python has no CA bundle, so
+  `urllib` fails certificate verification against the API).
+
 ### Facts that need re-checking before a real client deployment
 
 - **The Förderrechner numbers are illustrative** (base 30 % + speed 20 % +

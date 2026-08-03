@@ -4,6 +4,7 @@ import { newsreader, manrope, plexMono } from "../fonts";
 import { ConceptBar } from "@/components/demo/concept-bar";
 import { OpenStatus, type WeekHours } from "@/components/demo/open-status";
 import { BookingPanel } from "@/components/demo/booking-panel";
+import { Photo } from "@/components/demo/photo";
 
 export const metadata: Metadata = {
   title: "Praxis am Lindenplatz — Hausarztpraxis",
@@ -290,8 +291,39 @@ export default function PraxisDemo() {
         </div>
       </section>
 
+      {/* ---------- Räume ---------- */}
+      <section className="scroll-mt-28">
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <div className="d-reveal grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+            <Photo
+              src="/img/prx-reception.webp"
+              alt="Empfang der Praxis am Lindenplatz"
+              className="aspect-16/10 rounded-2xl bg-prx-mint"
+              sizes="(min-width: 1024px) 60vw, 100vw"
+            />
+            <div className="flex flex-col gap-6">
+              <Photo
+                src="/img/prx-room.webp"
+                alt="Behandlungszimmer mit Tageslicht"
+                className="aspect-4/3 flex-1 rounded-2xl bg-prx-mint"
+                sizes="(min-width: 1024px) 35vw, 100vw"
+              />
+              <div className="prx-card rounded-2xl border border-prx-line bg-prx-white p-6">
+                <p className="font-prx-display text-lg text-prx-ink">
+                  Hell, ruhig, ebenerdig
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-prx-body">
+                  Vier Behandlungszimmer, eigenes Labor und ein Wartebereich,
+                  in dem man sich nicht wie im Wartezimmer fühlt.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ---------- Team ---------- */}
-      <section id="team" className="scroll-mt-28">
+      <section id="team" className="scroll-mt-28 border-t border-prx-line">
         <div className="mx-auto max-w-6xl px-6 py-20">
           <div className="d-reveal max-w-2xl">
             <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-prx-teal">
