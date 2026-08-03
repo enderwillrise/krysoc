@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { unbounded, archivo, plexMono } from "./fonts";
 import { BOOKING_URL, SITE_URL } from "@/lib/site";
+import {
+  RestaurantPreview,
+  PraxisPreview,
+  HandwerkPreview,
+} from "@/components/concept-previews";
 
 export const metadata: Metadata = {
   title: { absolute: "Konzepte für lokale Unternehmen — Krysoc" },
@@ -14,8 +20,7 @@ const CONCEPTS = [
     name: "Trattoria Salvia",
     body: "Speisekarte, die sich pflegen lässt, Mittagstisch der Woche, Öffnungszeiten mit Live-Status und Reservierung an das bestehende Tischbuch angebunden.",
     features: ["Speisekarte", "Live-Öffnungsstatus", "Reservierung"],
-    swatch: ["#d9a05b", "#8a9a63", "#8c3446"],
-    preview: "rst-photo",
+    Preview: RestaurantPreview,
   },
   {
     href: "/demo/praxis/",
@@ -23,8 +28,7 @@ const CONCEPTS = [
     name: "Praxis am Lindenplatz",
     body: "Online-Terminbuchung sichtbar an erster Stelle — angebunden an Doctolib, samedi, Jameda oder Dr. Flex. Dazu Rezeptanforderung, Sprechzeiten und Notfallnummern.",
     features: ["Doctolib-Anbindung", "Rezept online", "Sprechzeiten live"],
-    swatch: ["#10736a", "#dcedea", "#e0913a"],
-    preview: "bg-[#dcedea]",
+    Preview: PraxisPreview,
   },
   {
     href: "/demo/handwerk/",
@@ -32,8 +36,7 @@ const CONCEPTS = [
     name: "Hartmann Haustechnik",
     body: "Notdienstnummer immer sichtbar, Förderrechner für die Wärmepumpe, Angebotsanfrage in drei Feldern und ein Karrierebereich, der wirklich Bewerbungen bringt.",
     features: ["Förderrechner", "24-h-Notdienst", "Azubi-Gewinnung"],
-    swatch: ["#f4531f", "#2c7cc4", "#12171c"],
-    preview: "hwk-photo",
+    Preview: HandwerkPreview,
   },
 ];
 
@@ -96,35 +99,71 @@ export default function DemoHub() {
 
       {/* ---------- Hero ---------- */}
       <section className="border-b border-white/10">
-        <div className="mx-auto max-w-6xl px-6 py-20 sm:py-28">
-          <p className="d-rise d-rise-1 font-ks-mono text-[11px] uppercase tracking-[0.2em] text-ks-gold">
-            Konzeptstudien
-          </p>
-          <h1 className="d-rise d-rise-2 mt-6 max-w-3xl font-ks-display text-3xl font-bold leading-[1.25] sm:text-4xl">
-            So könnte Ihre Website aussehen.
-            <span className="mt-2 block text-ks-gold">Gebaut und gehostet in Deutschland.</span>
-          </h1>
-          <p className="d-rise d-rise-3 mt-7 max-w-2xl text-lg leading-relaxed text-ks-stone">
-            Drei Beispiele aus Branchen, in denen die Website mehr können muss
-            als gut aussehen: Gäste sollen reservieren, Patienten sollen Termine
-            buchen, Kunden sollen anrufen. Alle drei Unternehmen sind erfunden —
-            die Technik dahinter ist echt.
-          </p>
-          <div className="d-rise d-rise-4 mt-9 flex flex-wrap gap-4">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full bg-ks-gold px-7 py-3.5 font-semibold text-ks-obsidian transition-opacity hover:opacity-85"
-            >
-              Kostenloses Erstgespräch
-            </a>
-            <a
-              href="#konzepte"
-              className="rounded-full border border-white/20 px-7 py-3.5 transition-colors hover:border-ks-gold"
-            >
-              Konzepte ansehen
-            </a>
+        <div className="mx-auto grid max-w-6xl items-center gap-14 px-6 py-20 lg:grid-cols-[1.05fr_0.95fr] sm:py-24">
+          <div>
+            <p className="d-rise d-rise-1 font-ks-mono text-[11px] uppercase tracking-[0.2em] text-ks-gold">
+              Konzeptstudien
+            </p>
+            <h1 className="d-rise d-rise-2 mt-6 font-ks-display text-3xl font-bold leading-[1.25] sm:text-4xl">
+              So könnte Ihre Website aussehen.
+              <span className="mt-2 block text-ks-gold">Gebaut und gehostet in Deutschland.</span>
+            </h1>
+            <p className="d-rise d-rise-3 mt-7 max-w-xl text-lg leading-relaxed text-ks-stone">
+              Drei Beispiele aus Branchen, in denen die Website mehr können muss
+              als gut aussehen: Gäste sollen reservieren, Patienten sollen
+              Termine buchen, Kunden sollen anrufen. Alle drei Unternehmen sind
+              erfunden — die Technik dahinter ist echt.
+            </p>
+            <div className="d-rise d-rise-4 mt-9 flex flex-wrap gap-4">
+              <a
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-ks-gold px-7 py-3.5 font-semibold text-ks-obsidian transition-opacity hover:opacity-85"
+              >
+                Kostenloses Erstgespräch
+              </a>
+              <a
+                href="#konzepte"
+                className="rounded-full border border-white/20 px-7 py-3.5 transition-colors hover:border-ks-gold"
+              >
+                Konzepte ansehen
+              </a>
+            </div>
+          </div>
+
+          {/* The three worlds these concepts are built for. */}
+          <div className="d-rise d-rise-3 grid grid-cols-2 gap-4">
+            <div className="relative aspect-3/4 overflow-hidden rounded-2xl">
+              <Image
+                src="/img/rst-room.webp"
+                alt="Gastraum einer Trattoria am Abend"
+                fill
+                sizes="(min-width: 1024px) 22vw, 45vw"
+                priority
+                className="object-cover"
+              />
+            </div>
+            <div className="mt-10 space-y-4">
+              <div className="relative aspect-square overflow-hidden rounded-2xl">
+                <Image
+                  src="/img/prx-reception.webp"
+                  alt="Empfang einer Hausarztpraxis"
+                  fill
+                  sizes="(min-width: 1024px) 22vw, 45vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative aspect-4/5 overflow-hidden rounded-2xl">
+                <Image
+                  src="/img/hwk-waermepumpe.webp"
+                  alt="Wärmepumpe an einem Einfamilienhaus"
+                  fill
+                  sizes="(min-width: 1024px) 22vw, 45vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -137,17 +176,11 @@ export default function DemoHub() {
               <Link
                 key={concept.href}
                 href={concept.href}
-                className="d-reveal group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-colors hover:border-ks-gold/50"
+                className="d-reveal group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-ks-gold/50"
               >
-                <div className={`${concept.preview} relative h-40 w-full`}>
-                  <div className="absolute bottom-3 left-3 flex gap-1.5">
-                    {concept.swatch.map((hex) => (
-                      <span
-                        key={hex}
-                        className="h-3 w-3 rounded-full ring-1 ring-black/20"
-                        style={{ backgroundColor: hex }}
-                      />
-                    ))}
+                <div className="p-4 pb-0">
+                  <div className="overflow-hidden rounded-lg ring-1 ring-white/10">
+                    <concept.Preview />
                   </div>
                 </div>
                 <div className="flex flex-1 flex-col p-6">
